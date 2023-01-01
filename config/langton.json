@@ -1,0 +1,187 @@
+{
+  "simulation": {
+    "name": "Langton's Ant",
+    "steps": 25,
+    "territory": {
+      "width": 8,
+      "height": 8,
+      "coordinates": {
+        "defaultProperties": [
+          {
+            "name": "color",
+            "value": 1
+          }
+        ],
+        "configuration": [
+          {
+            "x": 0,
+            "y": 1,
+            "properties": [
+              {
+                "name": "color",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "x": 0,
+            "y": 2,
+            "properties": [
+              {
+                "name": "color",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "x": 1,
+            "y": 1,
+            "properties": [
+              {
+                "name": "color",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "x": 2,
+            "y": 1,
+            "properties": [
+              {
+                "name": "color",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "x": 2,
+            "y": 2,
+            "properties": [
+              {
+                "name": "color",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "x": 3,
+            "y": 1,
+            "properties": [
+              {
+                "name": "color",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "x": 3,
+            "y": 2,
+            "properties": [
+              {
+                "name": "color",
+                "value": 2
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "agents": [
+      {
+        "name": "1",
+        "type": "ant",
+        "locatedAt": {
+          "x": 2,
+          "y": 2
+        },
+        "properties": []
+      }
+    ],
+    "AgentType": [
+      {
+        "name": "ant"
+      }
+    ],
+    "AgentProperties": [],
+    "CoordinateProperties": [
+      {
+        "name": "color"
+      }
+    ],
+    "AgentRules": [
+      {
+        "name": "Rule 1",
+        "description": "At a white square, turn 90° clockwise, flip the color of the square, move forward one unit",
+        "type": "ant",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": null,
+              "propertyTerritory": "color",
+              "compare": "equal",
+              "threshold": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "move",
+            "options": {
+              "steps": 1,
+              "direction": "degrees",
+              "turnDegrees": 90
+            }
+          },
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": null,
+              "propertyTerritory": "color",
+              "type": "update",
+              "value": 2
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 2",
+        "description": "At a black square, turn 90° counter-clockwise, flip the color of the square, move forward one unit",
+        "type": "ant",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": null,
+              "propertyTerritory": "color",
+              "compare": "equal",
+              "threshold": 2
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "move",
+            "options": {
+              "steps": 1,
+              "direction": "degrees",
+              "turnDegrees": 270
+            }
+          },
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": null,
+              "propertyTerritory": "color",
+              "type": "update",
+              "value": 1
+            }
+          }
+        ]
+      }
+    ],
+    "TerritoryRules": []
+  }
+}

@@ -1,0 +1,268 @@
+{
+  "simulation": {
+    "name": "Zombies",
+    "steps": 25,
+    "territory": {
+      "width": 50,
+      "height": 50,
+      "coordinates": null
+    },
+    "agents": [
+      {
+        "name": "1",
+        "type": "human",
+        "locatedAt": {
+          "x": 0,
+          "y": 0
+        },
+        "properties": [
+          {
+            "name": "infection",
+            "value": 0,
+            "name": "is-present",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "2",
+        "type": "human",
+        "locatedAt": {
+          "x": 1,
+          "y": 1
+        },
+        "properties": [
+          {
+            "name": "infection",
+            "value": 0,
+            "name": "is-present",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "3",
+        "type": "human",
+        "locatedAt": {
+          "x": 2,
+          "y": 2
+        },
+        "properties": [
+          {
+            "name": "infection",
+            "value": 0,
+            "name": "is-present",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "4",
+        "type": "zombie",
+        "locatedAt": {
+          "x": 0,
+          "y": 1
+        },
+        "properties": [
+          {
+            "name": "is-present",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "5",
+        "type": "zombie",
+        "locatedAt": {
+          "x": 0,
+          "y": 2
+        },
+        "properties": [
+          {
+            "name": "is-present",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "6",
+        "type": "zombie",
+        "locatedAt": {
+          "x": 0,
+          "y": 3
+        },
+        "properties": [
+          {
+            "name": "is-present",
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "AgentType": [
+      {
+        "name": "human"
+      },
+      {
+        "name": "zombie"
+      }
+    ],
+    "AgentProperties": [
+      {
+        "name": "infection",
+        "representLiveness": false
+      },
+      {
+        "name": "is-present",
+        "representLiveness": true
+      }
+    ],
+    "CoordinateProperties": [],
+    "AgentRules": [
+      {
+        "name": "Rule 1 - Human",
+        "description": "Become a Zombie, after being infected for more than 9 timesteps",
+        "type": "human",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "infection",
+              "propertyTerritory": null,
+              "compare": "greater-than",
+              "threshold": 9
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-present",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "is-present",
+              "propertyTerritory": null,
+              "type": "update",
+              "value": 0
+            }
+          },
+          {
+            "action": "introduce-agents",
+            "options": {
+              "type": "zombie",
+              "amount": 1,
+              "probabilityOfAdding": 1,
+              "properties": [
+                {
+                  "name": "is-present",
+                  "value": 1
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 2 - Human",
+        "description": "Query their immediate neighborhood to determine the adjacent grid location with the fewest number of Zombies, go into that direction",
+        "type": "human",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-present",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "move",
+            "options": {
+              "steps": 2,
+              "direction": "neighbor-winner",
+              "winnerBy": "amount",
+              "winnerType": "zombie",
+              "compare": "lowest"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 3 - Zombie",
+        "description": "Query their immediate neighborhood to determine the adjacent grid location with the most number of Humans, go into that direction",
+        "type": "zombie",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-present",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "move",
+            "options": {
+              "steps": 1,
+              "direction": "neighbor-winner",
+              "winnerBy": "amount",
+              "winnerType": "human",
+              "compare": "highest"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 4 - Zombie",
+        "description": "Infect the Humans at that location, also assuming any Humans are found",
+        "type": "zombie",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-present",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          },
+          {
+            "condition": "check-presence",
+            "options": {
+              "type": "human",
+              "value": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "affected": "human",
+              "probabilityOfChanging": 1,
+              "propertyAgent": "infection",
+              "propertyTerritory": null,
+              "type": "increase",
+              "value": 1
+            }
+          }
+        ]
+      }
+    ],
+    "TerritoryRules": []
+  }
+}

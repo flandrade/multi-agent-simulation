@@ -1,0 +1,230 @@
+{
+  "simulation": {
+    "name": "Schelling's segregation model",
+    "steps": 25,
+    "territory": {
+      "width": 50,
+      "height": 50,
+      "coordinates": null
+    },
+    "agents": [
+      {
+        "name": "1",
+        "type": "race-1",
+        "locatedAt": {
+          "x": 0,
+          "y": 0
+        },
+        "properties": [
+          {
+            "name": "happy",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "2",
+        "type": "race-1",
+        "locatedAt": {
+          "x": 1,
+          "y": 1
+        },
+        "properties": [
+          {
+            "name": "happy",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "3",
+        "type": "race-1",
+        "locatedAt": {
+          "x": 2,
+          "y": 2
+        },
+        "properties": [
+          {
+            "name": "happy",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "4",
+        "type": "race-2",
+        "locatedAt": {
+          "x": 0,
+          "y": 1
+        },
+        "properties": [
+          {
+            "name": "happy",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "5",
+        "type": "race-2",
+        "locatedAt": {
+          "x": 0,
+          "y": 2
+        },
+        "properties": [
+          {
+            "name": "happy",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "6",
+        "type": "race-2",
+        "locatedAt": {
+          "x": 0,
+          "y": 3
+        },
+        "properties": [
+          {
+            "name": "happy",
+            "value": 0
+          }
+        ]
+      }
+    ],
+    "AgentType": [
+      {
+        "name": "race-1"
+      },
+      {
+        "name": "race-2"
+      }
+    ],
+    "AgentProperties": [
+      {
+        "name": "happy",
+        "representLiveness": false
+      }
+    ],
+    "CoordinateProperties": [],
+    "AgentRules": [
+      {
+        "name": "Rule 1 - race-1",
+        "description": "If an agent has at least k=3 neighbors belonging to the same group, then it is happy",
+        "type": "race-1",
+        "preconditions": [
+          {
+            "condition": "get-neighbours",
+            "options": {
+              "type": "race-1",
+              "propertyAgent": null,
+              "compareValue": "equal",
+              "thresholdValue": 1,
+              "compareAmountAgentsHigh": "greater-than",
+              "thresholdAmountAgentsHigh": 2,
+              "compareAmountAgentsLow": "greater-than",
+              "thresholdAmountAgentsLow": 2
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "happy",
+              "propertyTerritory": null,
+              "type": "update",
+              "value": 1
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 2 - race-1",
+        "description": "If an agent is unhappy, it keeps moving to new locations until it is happy, while respecting the 1-agent-per-position rule",
+        "type": "race-1",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "happy",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 0
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "move",
+            "options": {
+              "steps": 1,
+              "direction": "free-random"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 3 - race-2",
+        "description": "If an agent has at least k=3 neighbors belonging to the same group, then it is happy",
+        "type": "race-2",
+        "preconditions": [
+          {
+            "condition": "get-neighbours",
+            "options": {
+              "type": "race-2",
+              "propertyAgent": null,
+              "compareValue": "equal",
+              "thresholdValue": 1,
+              "compareAmountAgentsHigh": "greater-than",
+              "thresholdAmountAgentsHigh": 2,
+              "compareAmountAgentsLow": "greater-than",
+              "thresholdAmountAgentsLow": 2
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "happy",
+              "propertyTerritory": null,
+              "type": "update",
+              "value": 1
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 4 - race-2",
+        "description": "If an agent is unhappy, it keeps moving to new locations until it is happy, while respecting the 1-agent-per-position rule",
+        "type": "race-2",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "type": "race-2",
+              "propertyAgent": "happy",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 0
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "move",
+            "options": {
+              "steps": 1,
+              "direction": "free-random"
+            }
+          }
+        ]
+      }
+    ],
+    "TerritoryRules": []
+  }
+}

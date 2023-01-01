@@ -1,0 +1,207 @@
+{
+  "simulation": {
+    "name": "Conway",
+    "steps": 25,
+    "territory": {
+      "width": 10,
+      "height": 10,
+      "coordinates": null
+    },
+    "agents": [
+      {
+        "name": "1",
+        "type": "cell",
+        "locatedAt": {
+          "x": 0,
+          "y": 0
+        },
+        "properties": [
+          {
+            "name": "is-alive",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "2",
+        "type": "cell",
+        "locatedAt": {
+          "x": 2,
+          "y": 3
+        },
+        "properties": [
+          {
+            "name": "is-alive",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "3",
+        "type": "cell",
+        "locatedAt": {
+          "x": 3,
+          "y": 5
+        },
+        "properties": [
+          {
+            "name": "is-alive",
+            "value": 0
+          }
+        ]
+      },
+      {
+        "name": "4",
+        "type": "cell",
+        "locatedAt": {
+          "x": 4,
+          "y": 5
+        },
+        "properties": [
+          {
+            "name": "is-alive",
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "AgentType": [
+      {
+        "name": "cell"
+      }
+    ],
+    "AgentProperties": [
+      {
+        "name": "is-alive",
+        "representLiveness": true
+      }
+    ],
+    "CoordinateProperties": [],
+    "AgentRules": [
+      {
+        "name": "Rule 1",
+        "description": "Any live cell with two or three live neighbours survives",
+        "type": "cell",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          },
+          {
+            "condition": "get-neighbours",
+            "options": {
+              "type": "cell",
+              "propertyAgent": "is-alive",
+              "compareValue": "equal",
+              "thresholdValue": 1,
+              "compareAmountAgentsHigh": "less-than",
+              "thresholdAmountAgentsHigh": 4,
+              "compareAmountAgentsLow": "greater-than",
+              "thresholdAmountAgentsLow": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "type": "update",
+              "value": 1
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 2",
+        "description": "Any dead cell with three live neighbours becomes a live cell",
+        "type": "cell",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 0
+            }
+          },
+          {
+            "condition": "get-neighbours",
+            "options": {
+              "type": "cell",
+              "propertyAgent": "is-alive",
+              "compareValue": "equal",
+              "thresholdValue": 1,
+              "compareAmountAgentsHigh": "equal",
+              "thresholdAmountAgentsHigh": 3,
+              "compareAmountAgentsLow": "equal",
+              "thresholdAmountAgentsLow": 3
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "type": "update",
+              "value": 1
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 3",
+        "description": "All other live cells die in the next generation.",
+        "type": "cell",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          },
+          {
+            "condition": "get-neighbours",
+            "options": {
+              "type": "cell",
+              "propertyAgent": "is-alive",
+              "compareValue": "equal",
+              "thresholdValue": 1,
+              "compareAmountAgentsHigh": "higher-than",
+              "thresholdAmountAgentsHigh": 3,
+              "compareAmountAgentsLow": "less-than",
+              "thresholdAmountAgentsLow": 2
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "type": "update",
+              "value": 0
+            }
+          }
+        ]
+      }
+    ],
+    "TerritoryRules": []
+  }
+}

@@ -1,0 +1,442 @@
+{
+  "simulation": {
+    "name": "Ant Colony",
+    "steps": 30,
+    "territory": {
+      "width": 20,
+      "height": 20,
+      "coordinates": {
+        "defaultProperties": [
+          {
+            "name": "pheromones",
+            "value": 0
+          }
+        ],
+        "configuration": [
+          {
+            "x": 2,
+            "y": 2,
+            "properties": [
+              {
+                "name": "pheromones",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "x": 4,
+            "y": 4,
+            "properties": [
+              {
+                "name": "pheromones",
+                "value": 1
+              },
+              {
+                "name": "units-of-food",
+                "value": 3
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "agents": [
+      {
+        "name": "1",
+        "type": "worker-ant",
+        "locatedAt": {
+          "x": 0,
+          "y": 0
+        },
+        "properties": [
+          {
+            "name": "load",
+            "value": 0
+          },
+          {
+            "name": "is-alive",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "2",
+        "type": "worker-ant",
+        "locatedAt": {
+          "x": 2,
+          "y": 3
+        },
+        "properties": [
+          {
+            "name": "load",
+            "value": 2
+          },
+          {
+            "name": "is-alive",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "3",
+        "type": "queen-ant",
+        "locatedAt": {
+          "x": 3,
+          "y": 15
+        },
+        "properties": [
+          {
+            "name": "food",
+            "value": 10
+          },
+          {
+            "name": "is-alive",
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "AgentType": [
+      {
+        "name": "worker-ant"
+      },
+      {
+        "name": "queen-ant"
+      }
+    ],
+    "AgentProperties": [
+      {
+        "name": "load",
+        "representLiveness": false
+      },
+      {
+        "name": "food",
+        "representLiveness": false
+      },
+      {
+        "name": "is-alive",
+        "representLiveness": true
+      }
+    ],
+    "CoordinateProperties": [
+      {
+        "name": "pheromones"
+      },
+      {
+        "name": "units-of-food"
+      }
+    ],
+    "AgentRules": [
+      {
+        "name": "Worker Ant - Rule 1",
+        "description": "if in their current position there is food and their load is less than 3, they take a unit of food to add it to their load",
+        "type": "worker-ant",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": null,
+              "propertyTerritory": "food",
+              "compare": "greater-than",
+              "threshold": 0
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "load",
+              "propertyTerritory": null,
+              "compare": "less-than",
+              "threshold": 3
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "load",
+              "propertyTerritory": null,
+              "type": "increase",
+              "value": 1
+            }
+          }
+        ]
+      },
+      {
+        "name": "Worker Ant - Rule 2",
+        "description": "if in his current position there is no food and his load is less than 3, they move to any adjacent position",
+        "type": "worker-ant",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": null,
+              "propertyTerritory": "food",
+              "compare": "equal",
+              "threshold": 0
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "load",
+              "propertyTerritory": null,
+              "compare": "less-than",
+              "threshold": 3
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "move",
+            "options": {
+              "steps": 1,
+              "direction": "random"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Worker Ant - Rule 3",
+        "description": "if his load is equal to 3 and in his current position there is an ant-queen, they deliver the load to the queen, who increases her property food by 3 units, while the load of the ant-worker reduces to 0",
+        "type": "worker-ant",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "load",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 3
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          },
+          {
+            "condition": "check-presence",
+            "options": {
+              "type": "queen-ant",
+              "value": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "load",
+              "propertyTerritory": null,
+              "type": "increase",
+              "value": 0
+            }
+          },
+          {
+            "action": "change-property",
+            "options": {
+              "affected": "queen-ant",
+              "probabilityOfChanging": 1,
+              "propertyAgent": "food",
+              "propertyTerritory": null,
+              "type": "increase",
+              "value": 3
+            }
+          }
+        ]
+      },
+      {
+        "name": "Worker Ant - Rule 4",
+        "description": "if their charge is equal to 3 and there is no ant-queen, move to the adjacent position that has more pheromones, and increase that pheromone amount by 1",
+        "type": "worker-ant",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "load",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 3
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          },
+          {
+            "condition": "check-presence",
+            "options": {
+              "type": "queen-ant",
+              "value": 0
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": null,
+              "propertyTerritory": "pheromone",
+              "type": "increase",
+              "value": 1
+            }
+          },
+          {
+            "action": "move",
+            "options": {
+              "steps": 1,
+              "direction": "property",
+              "propertyAgent": null,
+              "propertyTerritory": "pheromone",
+              "compare": "highest"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Queen Ant - Rule 1",
+        "description": "if they have between 1 and 50 units of food, subtract 1 unit, and introduce a new worker-ant into the system",
+        "type": "queen-ant",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "food",
+              "propertyTerritory": null,
+              "compare": "greater-than",
+              "threshold": 0
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "food",
+              "propertyTerritory": null,
+              "compare": "less-than",
+              "threshold": 51
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "food",
+              "propertyTerritory": null,
+              "type": "decrease",
+              "value": 1
+            }
+          },
+          {
+            "action": "introduce-agents",
+            "options": {
+              "type": "worker-ant",
+              "amount": 1,
+              "probabilityOfAdding": 1,
+              "properties": [
+                {
+                  "name": "load",
+                  "value": 0
+                },
+                {
+                  "name": "is-alive",
+                  "value": 1
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Queen Ant - Rule 2",
+        "description": "f they have less than 0 food units, they die and disappear from the system",
+        "type": "queen-ant",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "food",
+              "propertyTerritory": null,
+              "compare": "less-than",
+              "threshold": 0
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "type": "update",
+              "value": 0
+            }
+          }
+        ]
+      }
+    ],
+    "TerritoryRules": [
+      {
+        "name": "Rule 1 - Pheromones",
+        "description": "Decreasing the pheromones of each coordinate of the territory if its value is greater than 0",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": null,
+              "propertyTerritory": "pheromone",
+              "compare": "greater-than",
+              "threshold": 0
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 0.5,
+              "propertyAgent": null,
+              "propertyTerritory": "pheromone",
+              "type": "decrease",
+              "value": 1
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

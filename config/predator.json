@@ -1,0 +1,528 @@
+{
+  "simulation": {
+    "name": "Predator",
+    "steps": 25,
+    "territory": {
+      "width": 10,
+      "height": 10,
+      "coordinates": {
+        "defaultProperties": [
+          {
+            "name": "grass",
+            "value": 1
+          },
+          {
+            "name": "count-since-removed",
+            "value": 0
+          }
+        ],
+        "configuration": []
+      }
+    },
+    "agents": [
+      {
+        "name": "1",
+        "type": "sheep",
+        "locatedAt": {
+          "x": 2,
+          "y": 2
+        },
+        "properties": [
+          {
+            "energy": 5
+          }
+        ]
+      },
+      {
+        "name": "2",
+        "type": "sheep",
+        "locatedAt": {
+          "x": 4,
+          "y": 4
+        },
+        "properties": [
+          {
+            "energy": 5
+          }
+        ]
+      },
+      {
+        "name": "3",
+        "type": "sheep",
+        "locatedAt": {
+          "x": 6,
+          "y": 6
+        },
+        "properties": [
+          {
+            "energy": 5
+          }
+        ]
+      },
+      {
+        "name": "4",
+        "type": "woolf",
+        "locatedAt": {
+          "x": 0,
+          "y": 0
+        },
+        "properties": [
+          {
+            "energy": 5
+          }
+        ]
+      },
+      {
+        "name": "5",
+        "type": "woolf",
+        "locatedAt": {
+          "x": 3,
+          "y": 3
+        },
+        "properties": [
+          {
+            "energy": 5
+          }
+        ]
+      },
+      {
+        "name": "6",
+        "type": "woolf",
+        "locatedAt": {
+          "x": 7,
+          "y": 7
+        },
+        "properties": [
+          {
+            "energy": 5
+          }
+        ]
+      }
+    ],
+    "AgentType": [
+      {
+        "name": "wolf"
+      },
+      {
+        "name": "sheep"
+      }
+    ],
+    "AgentProperties": [
+      {
+        "name": "energy",
+        "representLiveness": false
+      },
+      {
+        "name": "is-alive",
+        "representLiveness": true
+      }
+    ],
+    "CoordinateProperties": [
+      {
+        "name": "grass"
+      },
+      {
+        "name": "count-since-removed"
+      }
+    ],
+    "AgentRules": [
+      {
+        "name": "Rule 1 - Woolf",
+        "description": "Each step costs the wolves energy",
+        "type": "woolf",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "energy",
+              "propertyTerritory": null,
+              "compare": "greater-than",
+              "threshold": 0
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "energy",
+              "propertyTerritory": null,
+              "type": "decrease",
+              "value": 1
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 2 - Woolf",
+        "description": "They must eat sheep in order to replenish their energy",
+        "type": "woolf",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "energy",
+              "propertyTerritory": null,
+              "compare": "greater-than",
+              "threshold": 0
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          },
+          {
+            "condition": "check-presence",
+            "options": {
+              "type": "sheep",
+              "value": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "energy",
+              "propertyTerritory": null,
+              "type": "increase",
+              "value": 2
+            }
+          },
+          {
+            "action": "change-property",
+            "options": {
+              "affected": "sheep",
+              "probabilityOfChanging": 1,
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "type": "update",
+              "value": 0
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 3 - Woolf",
+        "description": "when they run out of energy they die",
+        "type": "woolf",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "energy",
+              "propertyTerritory": null,
+              "compare": "less-than",
+              "threshold": 1
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "type": "update",
+              "value": 0
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 4 - Woolf",
+        "description": "Each woolf has a fixed probability of reproducing at each time step",
+        "type": "woolf",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "introduce-agents",
+            "options": {
+              "type": "woolf",
+              "amount": 1,
+              "probabilityOfAdding": 0.5,
+              "properties": [
+                {
+                  "name": "energy",
+                  "value": 5
+                },
+                {
+                  "name": "is-alive",
+                  "value": 1
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 1 - Sheep",
+        "description": "Each step costs the sheep energy",
+        "type": "sheep",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "energy",
+              "propertyTerritory": null,
+              "compare": "greater-than",
+              "threshold": 0
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "energy",
+              "propertyTerritory": null,
+              "type": "decrease",
+              "value": 1
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 2 - Sheep",
+        "description": "They must eat grass in order to replenish their energy",
+        "type": "sheep",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "energy",
+              "propertyTerritory": null,
+              "compare": "greater-than",
+              "threshold": 0
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": null,
+              "propertyTerritory": "grass",
+              "compare": "greater-than",
+              "threshold": 0
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": null,
+              "propertyTerritory": "grass",
+              "type": "update",
+              "value": 0
+            }
+          },
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": null,
+              "propertyTerritory": "count-since-removed",
+              "type": "update",
+              "value": 0
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 3 - Sheep",
+        "description": "when they run out of energy they die",
+        "type": "sheep",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "energy",
+              "propertyTerritory": null,
+              "compare": "less-than",
+              "threshold": 1
+            }
+          },
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "type": "update",
+              "value": 0
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 4 - Sheep",
+        "description": "Each sheep has a fixed probability of reproducing at each time step",
+        "type": "sheep",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "introduce-agents",
+            "options": {
+              "type": "sheep",
+              "amount": 1,
+              "probabilityOfAdding": 0.5,
+              "properties": [
+                {
+                  "name": "energy",
+                  "value": 5
+                },
+                {
+                  "name": "is-alive",
+                  "value": 1
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "TerritoryRules": [
+      {
+        "name": "Rule 1 - Grass",
+        "description": "Once grass is eaten it will only regrow after a fixed amount of time.",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": null,
+              "propertyTerritory": "count-since-removed",
+              "compare": "greater-than",
+              "threshold": 5
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": null,
+              "propertyTerritory": "grass",
+              "type": "update",
+              "value": 1
+            }
+          },
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": null,
+              "propertyTerritory": "count-since-removed",
+              "type": "update",
+              "value": 0
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 2 - Grass",
+        "description": "Once grass is eaten, keep track of the time that has passed",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": null,
+              "propertyTerritory": "grass",
+              "compare": "equal",
+              "threshold": 0
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 1,
+              "propertyAgent": null,
+              "propertyTerritory": "count-since-removed",
+              "type": "increase",
+              "value": 1
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

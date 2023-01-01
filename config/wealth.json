@@ -1,0 +1,70 @@
+{
+  "simulation": {
+    "name": "Statistical mechanics approach to wealth distribution",
+    "steps": 25,
+    "territory": {
+      "width": 20,
+      "height": 20,
+      "coordinates": null
+    },
+    "agents": [
+      {
+        "name": "1",
+        "type": "person",
+        "locatedAt": {
+          "x": 0,
+          "y": 0
+        },
+        "properties": [
+          {
+            "name": "money",
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "AgentType": [
+      {
+        "name": "person"
+      }
+    ],
+    "AgentProperties": [
+      {
+        "name": "money",
+        "representLiveness": false
+      }
+    ],
+    "CoordinateProperties": [],
+    "AgentRules": [
+      {
+        "name": "Rule 1",
+        "description": "Agents with positive wealth randomly selects a trading partner and gives them one unit of their wealth",
+        "type": "person",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "money",
+              "propertyTerritory": null,
+              "compare": "greater-than",
+              "threshold": 0
+            }
+          }
+        ],
+        "posconditions": [
+          {
+            "action": "change-property",
+            "options": {
+              "probabilityOfChanging": 0.5,
+              "propertyAgent": "money",
+              "propertyTerritory": null,
+              "type": "increase",
+              "value": 1
+            }
+          }
+        ]
+      }
+    ],
+    "TerritoryRules": []
+  }
+}
