@@ -428,7 +428,7 @@
           {
             "action": "change-property",
             "options": {
-              "probabilityOfChanging": 0.5,
+              "probabilityOfChanging": 1,
               "propertyAgent": null,
               "propertyTerritory": "pheromone",
               "type": "decrease",
