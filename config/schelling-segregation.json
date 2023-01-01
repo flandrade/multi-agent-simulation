@@ -5,7 +5,10 @@
     "territory": {
       "width": 50,
       "height": 50,
-      "coordinates": null
+      "coordinates": {
+        "defaultProperties": [],
+        "configuration": []
+      }
     },
     "agents": [
       {
@@ -119,8 +122,8 @@
             "options": {
               "type": "race-1",
               "propertyAgent": null,
-              "compareValue": "equal",
-              "thresholdValue": 1,
+              "compare": "equal",
+              "threshold": 1,
               "compareAmountAgentsHigh": "greater-than",
               "thresholdAmountAgentsHigh": 2,
               "compareAmountAgentsLow": "greater-than",
@@ -176,8 +179,8 @@
             "options": {
               "type": "race-2",
               "propertyAgent": null,
-              "compareValue": "equal",
-              "thresholdValue": 1,
+              "compare": "equal",
+              "threshold": 1,
               "compareAmountAgentsHigh": "greater-than",
               "thresholdAmountAgentsHigh": 2,
               "compareAmountAgentsLow": "greater-than",

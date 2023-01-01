@@ -41,6 +41,21 @@
     "AgentRules": [
       {
         "name": "Rule 1",
+        "description": "Agents move",
+        "type": "person",
+        "preconditions": [],
+        "posconditions": [
+          {
+            "action": "move",
+            "options": {
+              "steps": 1,
+              "direction": "free-random"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 2",
         "description": "Agents with positive wealth randomly selects a trading partner and gives them one unit of their wealth",
         "type": "person",
         "preconditions": [

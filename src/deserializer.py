@@ -64,6 +64,13 @@ def to_float(x: Any) -> float:
 class Condition(Enum):
     CHECK_PRESENCE = "check-presence"
     COMPARE_PROPERTY = "compare-property"
+    GET_NEIGHBOURS = "get-neighbours"
+
+
+class Action(Enum):
+    CHANGE_PROTERPY = "change-property"
+    INTRODUCE_AGENTS = "introduce-agents"
+    MOVE = "move"
 
 
 class Compare(Enum):
@@ -161,19 +168,19 @@ class PurpleOptions:
 
 @dataclass
 class AgentRulePoscondition:
-    action: str
+    action: Action
     options: PurpleOptions
 
     @staticmethod
     def from_dict(obj: Any) -> 'AgentRulePoscondition':
         assert isinstance(obj, dict)
-        action = from_str(obj.get("action"))
+        action = Action(obj.get("action"))
         options = PurpleOptions.from_dict(obj.get("options"))
         return AgentRulePoscondition(action, options)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["action"] = from_str(self.action)
+        result["action"] = to_enum(Action, self.action)
         result["options"] = to_class(PurpleOptions, self.options)
         return result
 
@@ -186,6 +193,10 @@ class FluffyOptions:
     threshold: Optional[int] = None
     type: Optional[str] = None
     value: Optional[int] = None
+    compare_amount_agents_high: Optional[Compare] = None
+    threshold_amount_agents_high: Optional[int] = None
+    compare_amount_agents_low: Optional[Compare] = None
+    threshold_amount_agents_low: Optional[int] = None
 
     @staticmethod
     def from_dict(obj: Any) -> 'FluffyOptions':
@@ -196,7 +207,11 @@ class FluffyOptions:
         threshold = from_union([from_int, from_none], obj.get("threshold"))
         type = from_union([from_str, from_none], obj.get("type"))
         value = from_union([from_int, from_none], obj.get("value"))
-        return FluffyOptions(property_agent, property_territory, compare, threshold, type, value)
+        compare_amount_agents_high = from_union([from_str, from_none], obj.get("compareAmountAgentsHigh"))
+        threshold_amount_agents_high = from_union([from_int, from_none], obj.get("thresholdAmountAgentsHigh"))
+        compare_amount_agents_low = from_union([from_str, from_none], obj.get("compareAmountAgentsLow"))
+        threshold_amount_agents_low = from_union([from_int, from_none], obj.get("thresholdAmountAgentsLow"))
+        return FluffyOptions(property_agent, property_territory, compare, threshold, type, value, compare_amount_agents_high, threshold_amount_agents_high, compare_amount_agents_low, threshold_amount_agents_low)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -206,6 +221,10 @@ class FluffyOptions:
         result["threshold"] = from_union([from_int, from_none], self.threshold)
         result["type"] = from_union([from_str, from_none], self.type)
         result["value"] = from_union([from_int, from_none], self.value)
+        result["compareAmountAgentsHigh"] = from_union([from_str, from_none], self.compare_amount_agents_high)
+        result["thresholdAmountAgentsHigh"] = from_union([from_int, from_none], self.threshold_amount_agents_high)
+        result["compareAmountAgentsLow"] = from_union([from_str, from_none], self.compare_amount_agents_low)
+        result["thresholdAmountAgentsLow"] = from_union([from_int, from_none], self.threshold_amount_agents_low)
         return result
 
 
@@ -409,19 +428,19 @@ class TentacledOptions:
 
 @dataclass
 class TerritoryRulePoscondition:
-    action: str
+    action: Action
     options: TentacledOptions
 
     @staticmethod
     def from_dict(obj: Any) -> 'TerritoryRulePoscondition':
         assert isinstance(obj, dict)
-        action = from_str(obj.get("action"))
+        action = Action(obj.get("action"))
         options = TentacledOptions.from_dict(obj.get("options"))
         return TerritoryRulePoscondition(action, options)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["action"] = from_str(self.action)
+        result["action"] = to_enum(Action, self.action)
         result["options"] = to_class(TentacledOptions, self.options)
         return result
 

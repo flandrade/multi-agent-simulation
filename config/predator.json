@@ -29,7 +29,8 @@
         },
         "properties": [
           {
-            "energy": 5
+            "name": "energy",
+            "value": 8
           }
         ]
       },
@@ -42,7 +43,8 @@
         },
         "properties": [
           {
-            "energy": 5
+            "name": "energy",
+            "value": 8
           }
         ]
       },
@@ -55,7 +57,8 @@
         },
         "properties": [
           {
-            "energy": 5
+            "name": "energy",
+            "value": 8
           }
         ]
       },
@@ -68,7 +71,8 @@
         },
         "properties": [
           {
-            "energy": 5
+            "name": "energy",
+            "value": 8
           }
         ]
       },
@@ -81,7 +85,8 @@
         },
         "properties": [
           {
-            "energy": 5
+            "name": "energy",
+            "value": 8
           }
         ]
       },
@@ -94,7 +99,8 @@
         },
         "properties": [
           {
-            "energy": 5
+            "name": "energy",
+            "value": 8
           }
         ]
       }
@@ -280,7 +286,7 @@
               "properties": [
                 {
                   "name": "energy",
-                  "value": 5
+                  "value": 8
                 },
                 {
                   "name": "is-alive",
@@ -446,7 +452,7 @@
               "properties": [
                 {
                   "name": "energy",
-                  "value": 5
+                  "value": 8
                 },
                 {
                   "name": "is-alive",
