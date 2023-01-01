@@ -163,7 +163,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "energy",
               "propertyTerritory": null,
-              "type": "decrease",
+              "updateType": "decrease",
               "value": 1
             }
           }
@@ -207,7 +207,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "energy",
               "propertyTerritory": null,
-              "type": "increase",
+              "updateType": "increase",
               "value": 2
             }
           },
@@ -218,7 +218,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
-              "type": "update",
+              "updateType": "update",
               "value": 0
             }
           }
@@ -255,7 +255,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
-              "type": "update",
+              "updateType": "update",
               "value": 0
             }
           }
@@ -328,7 +328,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "energy",
               "propertyTerritory": null,
-              "type": "decrease",
+              "updateType": "decrease",
               "value": 1
             }
           }
@@ -374,7 +374,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": null,
               "propertyTerritory": "grass",
-              "type": "update",
+              "updateType": "update",
               "value": 0
             }
           },
@@ -384,7 +384,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": null,
               "propertyTerritory": "count-since-removed",
-              "type": "update",
+              "updateType": "update",
               "value": 0
             }
           }
@@ -421,7 +421,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
-              "type": "update",
+              "updateType": "update",
               "value": 0
             }
           }
@@ -486,7 +486,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": null,
               "propertyTerritory": "grass",
-              "type": "update",
+              "updateType": "update",
               "value": 1
             }
           },
@@ -496,7 +496,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": null,
               "propertyTerritory": "count-since-removed",
-              "type": "update",
+              "updateType": "update",
               "value": 0
             }
           }
@@ -523,7 +523,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": null,
               "propertyTerritory": "count-since-removed",
-              "type": "increase",
+              "updateType": "increase",
               "value": 1
             }
           }

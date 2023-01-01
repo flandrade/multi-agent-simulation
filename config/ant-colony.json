@@ -158,7 +158,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "load",
               "propertyTerritory": null,
-              "type": "increase",
+              "updateType": "increase",
               "value": 1
             }
           }
@@ -236,7 +236,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "load",
               "propertyTerritory": null,
-              "type": "increase",
+              "updateType": "increase",
               "value": 0
             }
           },
@@ -247,7 +247,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "food",
               "propertyTerritory": null,
-              "type": "increase",
+              "updateType": "increase",
               "value": 3
             }
           }
@@ -291,7 +291,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": null,
               "propertyTerritory": "pheromone",
-              "type": "increase",
+              "updateType": "increase",
               "value": 1
             }
           },
@@ -347,14 +347,14 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "food",
               "propertyTerritory": null,
-              "type": "decrease",
+              "updateType": "decrease",
               "value": 1
             }
           },
           {
             "action": "introduce-agents",
             "options": {
-              "type": "worker-ant",
+              "agentType": "worker-ant",
               "amount": 1,
               "probabilityOfAdding": 1,
               "properties": [
@@ -402,7 +402,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
-              "type": "update",
+              "updateType": "update",
               "value": 0
             }
           }
@@ -431,7 +431,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": null,
               "propertyTerritory": "pheromone",
-              "type": "decrease",
+              "updateType": "decrease",
               "value": 1
             }
           }

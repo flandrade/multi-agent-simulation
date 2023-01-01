@@ -76,7 +76,7 @@
               "probabilityOfChanging": 0.5,
               "propertyAgent": "money",
               "propertyTerritory": null,
-              "type": "increase",
+              "updateType": "increase",
               "value": 1
             }
           }

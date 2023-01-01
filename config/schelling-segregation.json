@@ -118,7 +118,7 @@
         "type": "race-1",
         "preconditions": [
           {
-            "condition": "get-neighbours",
+            "condition": "get-neighbors",
             "options": {
               "type": "race-1",
               "propertyAgent": null,
@@ -138,7 +138,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "happy",
               "propertyTerritory": null,
-              "type": "update",
+              "updateType": "update",
               "value": 1
             }
           }
@@ -175,7 +175,7 @@
         "type": "race-2",
         "preconditions": [
           {
-            "condition": "get-neighbours",
+            "condition": "get-neighbors",
             "options": {
               "type": "race-2",
               "propertyAgent": null,
@@ -195,7 +195,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "happy",
               "propertyTerritory": null,
-              "type": "update",
+              "updateType": "update",
               "value": 1
             }
           }

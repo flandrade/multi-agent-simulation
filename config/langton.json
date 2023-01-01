@@ -139,7 +139,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": null,
               "propertyTerritory": "color",
-              "type": "update",
+              "updateType": "update",
               "value": 2
             }
           }
@@ -175,7 +175,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": null,
               "propertyTerritory": "color",
-              "type": "update",
+              "updateType": "update",
               "value": 1
             }
           }

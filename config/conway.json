@@ -96,7 +96,7 @@
             }
           },
           {
-            "condition": "get-neighbours",
+            "condition": "get-neighbors",
             "options": {
               "type": "cell",
               "propertyAgent": "is-alive",
@@ -116,7 +116,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
-              "type": "update",
+              "updateType": "update",
               "value": 1
             }
           }
@@ -137,7 +137,7 @@
             }
           },
           {
-            "condition": "get-neighbours",
+            "condition": "get-neighbors",
             "options": {
               "type": "cell",
               "propertyAgent": "is-alive",
@@ -157,7 +157,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
-              "type": "update",
+              "updateType": "update",
               "value": 1
             }
           }
@@ -178,7 +178,7 @@
             }
           },
           {
-            "condition": "get-neighbours",
+            "condition": "get-neighbors",
             "options": {
               "type": "cell",
               "propertyAgent": "is-alive",
@@ -198,7 +198,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
-              "type": "update",
+              "updateType": "update",
               "value": 0
             }
           }

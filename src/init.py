@@ -4,7 +4,7 @@ import pprint
 from deserializer import simulation_from_dict
 
 if __name__ == '__main__':
-    with open('config/zombie.json') as config_file:
+    with open('config/langton.json') as config_file:
         conf = config_file.read()
 
     config = simulation_from_dict(json.loads(conf))
