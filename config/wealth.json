@@ -5,7 +5,10 @@
     "territory": {
       "width": 20,
       "height": 20,
-      "coordinates": null
+      "coordinates": {
+        "defaultProperties": [],
+        "configuration": []
+      }
     },
     "agents": [
       {

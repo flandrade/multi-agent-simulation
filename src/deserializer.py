@@ -61,12 +61,6 @@ def to_float(x: Any) -> float:
     return x
 
 
-class Name(Enum):
-    FOOD = "food"
-    IS_ALIVE = "is-alive"
-    LOAD = "load"
-
-
 class Condition(Enum):
     CHECK_PRESENCE = "check-presence"
     COMPARE_PROPERTY = "compare-property"
@@ -80,19 +74,19 @@ class Compare(Enum):
 
 @dataclass
 class AgentProperty:
-    name: Name
+    name: str
     represent_liveness: bool
 
     @staticmethod
     def from_dict(obj: Any) -> 'AgentProperty':
         assert isinstance(obj, dict)
-        name = Name(obj.get("name"))
+        name = from_str(obj.get("name"))
         represent_liveness = from_bool(obj.get("representLiveness"))
         return AgentProperty(name, represent_liveness)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["name"] = to_enum(Name, self.name)
+        result["name"] = from_str(self.name)
         result["representLiveness"] = from_bool(self.represent_liveness)
         return result
 
@@ -118,8 +112,8 @@ class Property:
 
 @dataclass
 class PurpleOptions:
-    probability_of_changing: Optional[int] = None
-    property_agent: Optional[Name] = None
+    probability_of_changing: Optional[float] = None
+    property_agent: Optional[str] = None
     property_territory: Optional[str] = None
     type: Optional[str] = None
     value: Optional[int] = None
@@ -128,14 +122,14 @@ class PurpleOptions:
     affected: Optional[str] = None
     compare: Optional[str] = None
     amount: Optional[int] = None
-    probability_of_adding: Optional[int] = None
+    probability_of_adding: Optional[float] = None
     properties: Optional[List[Property]] = None
 
     @staticmethod
     def from_dict(obj: Any) -> 'PurpleOptions':
         assert isinstance(obj, dict)
-        probability_of_changing = from_union([from_int, from_none], obj.get("probabilityOfChanging"))
-        property_agent = from_union([from_none, Name], obj.get("propertyAgent"))
+        probability_of_changing = from_union([from_float, from_none], obj.get("probabilityOfChanging"))
+        property_agent = from_union([from_none, from_str], obj.get("propertyAgent"))
         property_territory = from_union([from_none, from_str], obj.get("propertyTerritory"))
         type = from_union([from_str, from_none], obj.get("type"))
         value = from_union([from_int, from_none], obj.get("value"))
@@ -144,14 +138,14 @@ class PurpleOptions:
         affected = from_union([from_str, from_none], obj.get("affected"))
         compare = from_union([from_str, from_none], obj.get("compare"))
         amount = from_union([from_int, from_none], obj.get("amount"))
-        probability_of_adding = from_union([from_int, from_none], obj.get("probabilityOfAdding"))
+        probability_of_adding = from_union([from_float, from_none], obj.get("probabilityOfAdding"))
         properties = from_union([lambda x: from_list(Property.from_dict, x), from_none], obj.get("properties"))
         return PurpleOptions(probability_of_changing, property_agent, property_territory, type, value, steps, direction, affected, compare, amount, probability_of_adding, properties)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["probabilityOfChanging"] = from_union([from_int, from_none], self.probability_of_changing)
-        result["propertyAgent"] = from_union([from_none, lambda x: to_enum(Name, x)], self.property_agent)
+        result["probabilityOfChanging"] = from_union([from_float, from_none], self.probability_of_changing)
+        result["propertyAgent"] = from_union([from_none, from_str], self.property_agent)
         result["propertyTerritory"] = from_union([from_none, from_str], self.property_territory)
         result["type"] = from_union([from_str, from_none], self.type)
         result["value"] = from_union([from_int, from_none], self.value)
@@ -160,7 +154,7 @@ class PurpleOptions:
         result["affected"] = from_union([from_str, from_none], self.affected)
         result["compare"] = from_union([from_str, from_none], self.compare)
         result["amount"] = from_union([from_int, from_none], self.amount)
-        result["probabilityOfAdding"] = from_union([from_int, from_none], self.probability_of_adding)
+        result["probabilityOfAdding"] = from_union([from_float, from_none], self.probability_of_adding)
         result["properties"] = from_union([lambda x: from_list(lambda x: to_class(Property, x), x), from_none], self.properties)
         return result
 
@@ -186,8 +180,8 @@ class AgentRulePoscondition:
 
 @dataclass
 class FluffyOptions:
-    property_agent: Optional[Name] = None
-    property_territory: Optional[Name] = None
+    property_agent: Optional[str] = None
+    property_territory: Optional[str] = None
     compare: Optional[Compare] = None
     threshold: Optional[int] = None
     type: Optional[str] = None
@@ -196,8 +190,8 @@ class FluffyOptions:
     @staticmethod
     def from_dict(obj: Any) -> 'FluffyOptions':
         assert isinstance(obj, dict)
-        property_agent = from_union([from_none, Name], obj.get("propertyAgent"))
-        property_territory = from_union([from_none, Name], obj.get("propertyTerritory"))
+        property_agent = from_union([from_none, from_str], obj.get("propertyAgent"))
+        property_territory = from_union([from_none, from_str], obj.get("propertyTerritory"))
         compare = from_union([Compare, from_none], obj.get("compare"))
         threshold = from_union([from_int, from_none], obj.get("threshold"))
         type = from_union([from_str, from_none], obj.get("type"))
@@ -206,8 +200,8 @@ class FluffyOptions:
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["propertyAgent"] = from_union([from_none, lambda x: to_enum(Name, x)], self.property_agent)
-        result["propertyTerritory"] = from_union([from_none, lambda x: to_enum(Name, x)], self.property_territory)
+        result["propertyAgent"] = from_union([from_none, from_str], self.property_agent)
+        result["propertyTerritory"] = from_union([from_none, from_str], self.property_territory)
         result["compare"] = from_union([lambda x: to_enum(Compare, x), from_none], self.compare)
         result["threshold"] = from_union([from_int, from_none], self.threshold)
         result["type"] = from_union([from_str, from_none], self.type)
@@ -388,26 +382,26 @@ class Territory:
 @dataclass
 class TentacledOptions:
     probability_of_changing: float
-    property_agent: None
-    property_territory: str
     type: str
     value: int
+    property_agent: Optional[str] = None
+    property_territory: Optional[str] = None
 
     @staticmethod
     def from_dict(obj: Any) -> 'TentacledOptions':
         assert isinstance(obj, dict)
         probability_of_changing = from_float(obj.get("probabilityOfChanging"))
-        property_agent = from_none(obj.get("propertyAgent"))
-        property_territory = from_str(obj.get("propertyTerritory"))
+        property_territory = from_union([from_str, from_none], obj.get("propertyTerritory"))
+        property_agent = from_union([from_str, from_none], obj.get("propertyAgent"))
         type = from_str(obj.get("type"))
         value = from_int(obj.get("value"))
-        return TentacledOptions(probability_of_changing, property_agent, property_territory, type, value)
+        return TentacledOptions(probability_of_changing, type, value, property_agent, property_territory)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["probabilityOfChanging"] = to_float(self.probability_of_changing)
-        result["propertyAgent"] = from_none(self.property_agent)
-        result["propertyTerritory"] = from_str(self.property_territory)
+        result["propertyTerritory"] = from_union([from_str, from_none], self.property_territory)
+        result["propertyAgent"] = from_union([from_str, from_none], self.property_agent)
         result["type"] = from_str(self.type)
         result["value"] = from_int(self.value)
         return result
@@ -434,24 +428,24 @@ class TerritoryRulePoscondition:
 
 @dataclass
 class StickyOptions:
-    property_agent: None
-    property_territory: str
     compare: Compare
     threshold: int
+    property_agent: Optional[str] = None
+    property_territory: Optional[str] = None
 
     @staticmethod
     def from_dict(obj: Any) -> 'StickyOptions':
         assert isinstance(obj, dict)
-        property_agent = from_none(obj.get("propertyAgent"))
-        property_territory = from_str(obj.get("propertyTerritory"))
+        property_territory = from_union([from_str, from_none], obj.get("propertyTerritory"))
+        property_agent = from_union([from_str, from_none], obj.get("propertyAgent"))
         compare = Compare(obj.get("compare"))
         threshold = from_int(obj.get("threshold"))
-        return StickyOptions(property_agent, property_territory, compare, threshold)
+        return StickyOptions(compare, threshold, property_agent, property_territory)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["propertyAgent"] = from_none(self.property_agent)
-        result["propertyTerritory"] = from_str(self.property_territory)
+        result["propertyTerritory"] = from_union([from_str, from_none], self.property_territory)
+        result["propertyAgent"] = from_union([from_str, from_none], self.property_agent)
         result["compare"] = to_enum(Compare, self.compare)
         result["threshold"] = from_int(self.threshold)
         return result
