@@ -614,4 +614,7 @@ class Simulation:
 
 
 def simulation_from_dict(s: Any) -> Simulation:
+    """
+    Partially generated with https://app.quicktype.io/
+    """
     return Simulation.from_dict(s)
