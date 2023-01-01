@@ -13,6 +13,7 @@ class TerritoryConfig(object):
   def __init__(self, width, height, coordinates):
     self.width = width
     self.height = height
+    self.territory = CoordinatesConfig(**coordinates)
 
   def __str__(self):
     return "Territory\n  Width: {0} | Height: {1}".format(self.width, self.height)
@@ -38,5 +39,6 @@ if __name__ == '__main__':
     conf = config_file.read()
 
   parsed_json = json.loads(conf)
+  print(parsed_json)
   sim = SimulationConfig(**parsed_json)
   print(sim)
