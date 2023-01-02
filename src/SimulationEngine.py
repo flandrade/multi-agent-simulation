@@ -95,18 +95,18 @@ class Territory:
 def simulate(data, agents, territory, steps, rules):
     data = []
     for i in range(steps):
-        # choose a random agent and apply its behavior rules
-        agent = random.choice(agents)
-        # get agents in same location different from the agent
-        agents_in_same_location = [ag for ag in agents if ag.location == agent.location and ag.name != agent.name]
-        result = agent.apply_behavior_rules(rules, territory.coordinates[agent.location], agents_in_same_location)
-        # if rule returns True, new agent should be created.
-        # NOTE: name should be unique
-        if result:
-            new_agent = Agent(str(uuid.uuid4()), agent.type, agent.location, agent.properties)
-            agents.append(new_agent)
-        # apply the evolution rules for the territory
-        territory.apply_evolution_rules()
+        # iterate through agents to apply rules
+        for agent in agents:
+            # get agents in same location different from the agent
+            agents_in_same_location = [ag for ag in agents if ag.location == agent.location and ag.name != agent.name]
+            result = agent.apply_behavior_rules(rules, territory.coordinates[agent.location], agents_in_same_location)
+            # if rule returns True, new agent should be created.
+            # NOTE: name should be unique
+            if result:
+                new_agent = Agent(str(uuid.uuid4()), agent.type, agent.location, agent.properties)
+                agents.append(new_agent)
+            # apply the evolution rules for the territory
+            territory.apply_evolution_rules()
 
         # collect data for the plot
         data.append((i, territory.coordinates, agents))
