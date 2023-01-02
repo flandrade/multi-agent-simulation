@@ -151,7 +151,7 @@ def get_agent_properties(properties):
 
 def main():
     # open the JSON file and read the contents
-    with open('config/predator.json') as config_file:
+    with open('config/langton.json') as config_file:
         conf = config_file.read()
     config = simulation_from_dict(json.loads(conf))
 

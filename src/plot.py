@@ -13,7 +13,7 @@ def define_scat(agent_types, agents, step, liveness_property):
         for ag in [ag for ag in ag_set]:
             ag_location = ag.location
             # only plot alive agents
-            if (ag.properties[liveness_property] == 1):
+            if (liveness_property is None or ag.properties[liveness_property] == 1):
                 alive_agents_location_x = ag_location[0]
                 alive_agents_location_y = ag_location[1]
                 list.append((alive_agents_location_x, alive_agents_location_y))
