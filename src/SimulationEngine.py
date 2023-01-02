@@ -4,12 +4,14 @@ Created on Fri Dec 30 16:12:35 2022
 
 @author: Grandury
 """
+import copy
 import json
 import numpy as np
 import random
 from plot import plot_simulation
 import uuid
-from deserializer import simulation_from_dict, Condition, Compare, Action, UpdateType
+from deserializer import simulation_from_dict, Condition, Compare, Action, UpdateType, DirectionType
+from utils import normalize
 
 class Agent:
     def __init__(self, name, type, location, properties):
@@ -19,16 +21,18 @@ class Agent:
         self.properties = properties
 
 
-    def apply_behavior_rules(self, rules, coordinate, agents_in_same_location=[]):
+    def apply_behavior_rules(self, rules, territory, agents_in_same_location=[]):
         """
         Apply behavior rules to agent. Returns TRUE if new agent should be created
         """
         # filter rules for agent type
         filtered_rules = [rul for rul in rules if rul.type == self.type]
+        # coordinate
+        coordinate = territory.coordinates[self.location]
         # apply each behavior rule in turn
         for rule in filtered_rules:
             # check if the preconditions are satisfied
-            preconditions_satisfied = True
+            preconditions_satisfied = False
             for precondition in rule.preconditions:
                 if precondition.condition == Condition.COMPARE_PROPERTY:
                     options = precondition.options
@@ -44,29 +48,32 @@ class Agent:
                         preconditions_satisfied = value < options.threshold
                     elif options.compare == Compare.LESS_THAN:
                         preconditions_satisfied = value == options.threshold
-                    return False
                 # add other conditions as needed
 
             # if the preconditions are satisfied, apply the postconditions
             if preconditions_satisfied:
                 for postcondition in rule.postconditions:
-                    if postcondition.action == Action.INTRODUCE_AGENTS:
-                        return True
+                    options = postcondition.options
+                    if postcondition.action == Action.MOVE:
+                        if options.direction == DirectionType.RANDOM:
+                            new_x = normalize(copy.deepcopy(self.location[0]) + random.randint(-1, 1), 0, territory.size[1])
+                            new_y = normalize(copy.deepcopy(self.location[1]) + random.randint(-1, 1), 0, territory.size[1])
+                            self.location = (new_x, new_y)
                     if postcondition.action == Action.CHANGE_PROPERTY:
-                        options = postcondition.options
                         if options.property_agent is not None:
+                            prev = copy.deepcopy(self.properties[options.property_agent])
                             # change a property of the agent
                             if options.update_type == UpdateType.INCREASE:
                                 # is it's same agent
                                 if options.affected is None:
-                                    self.properties[options.property_agent] += options.value
+                                    self.properties[options.property_agent] = prev + options.value
                                 # if it's different agent
                                 elif options.affected is not None and len(agents_in_same_location) > 0:
                                     agents_in_same_location[0].properties[options.property_agent] += options.value
                             elif options.update_type == UpdateType.DECREASE:
                                 # is it's same agent
                                 if options.affected is None:
-                                    self.properties[options.property_agent] -= options.value
+                                    self.properties[options.property_agent] = prev - options.value
                                 # if it's different agent
                                 elif options.affected is not None and len(agents_in_same_location) > 0:
                                     agents_in_same_location[0].properties[options.property_agent] -= options.value
@@ -81,7 +88,11 @@ class Agent:
                             # change a property of the territory
                             if options.update_type == UpdateType.INCREASE:
                                 coordinate[options.property_territory] += options.value
-                        return False
+
+                    # should be here to avoid overlapping
+                    if postcondition.action == Action.INTRODUCE_AGENTS:
+                        return options
+        return None
 
 class Territory:
     def __init__(self, size, coordinates):
@@ -92,25 +103,33 @@ class Territory:
         # implement the logic for applying the evolution rules for the territory
         pass
 
-def simulate(data, agents, territory, steps, rules):
-    data = []
-    for i in range(steps):
+def simulate(agents, territory, steps, rules):
+    new_data = []
+    new_data.append((0, copy.deepcopy(territory.coordinates), copy.deepcopy(agents)))
+    for i in range(1, steps):
         # iterate through agents to apply rules
-        for agent in agents:
+        this_agents = copy.deepcopy(agents)
+        for agent in this_agents:
             # get agents in same location different from the agent
-            agents_in_same_location = [ag for ag in agents if ag.location == agent.location and ag.name != agent.name]
-            result = agent.apply_behavior_rules(rules, territory.coordinates[agent.location], agents_in_same_location)
-            # if rule returns True, new agent should be created.
+            agents_in_same_location = [ag for ag in this_agents if ag.location == agent.location and ag.name != agent.name]
+            result = agent.apply_behavior_rules(rules, territory, agents_in_same_location)
+            # if rule returns value, new agent should be created.
             # NOTE: name should be unique
-            if result:
-                new_agent = Agent(str(uuid.uuid4()), agent.type, agent.location, agent.properties)
+            if result is not None:
+                new_agent = Agent(str(uuid.uuid4()), result.agent_type, agent.location, get_agent_properties(result.properties))
                 agents.append(new_agent)
             # apply the evolution rules for the territory
-            territory.apply_evolution_rules()
+        territory.apply_evolution_rules()
 
         # collect data for the plot
-        data.append((i, territory.coordinates, agents))
-    return data
+        new_data.append((i, copy.deepcopy(territory.coordinates), copy.deepcopy(this_agents)))
+    return new_data
+
+def get_agent_properties(properties):
+    agent_properties = {}
+    for prop in properties:
+        agent_properties[prop.name] = prop.value
+    return agent_properties
 
 def main():
     # open the JSON file and read the contents
@@ -124,9 +143,7 @@ def main():
     # extract the agents and their properties from the JSON file
     agents = []
     for agent_data in config.simulation.agents:
-        agent_properties = {}
-        for prop in agent_data.properties:
-            agent_properties[prop.name] = prop.value
+        agent_properties = get_agent_properties(agent_data.properties)
         agent = Agent(agent_data.name, agent_data.type, (agent_data.located_at.x, agent_data.located_at.y), agent_properties)
         agents.append(agent)
 
@@ -148,11 +165,19 @@ def main():
     territory = Territory(territory_size, territory_properties)
 
     # run the simulation and collect the data
-    data = simulate(config, agents, territory, config.simulation.steps, config.simulation.agent_rules)
+    data = simulate(agents, territory, config.simulation.steps, config.simulation.agent_rules)
+
+    # define property that show liveness (that means: if agent is live or present in the grid)
+    temp_liveness_property = [pr for pr in config.simulation.agent_properties if pr.represent_liveness]
+    liveness_property = temp_liveness_property[0].name if len(temp_liveness_property) > 0 else None
+
+    for step in data:
+        print(f'step {step[0]}')
+        for ag in step[2]:
+            print(f'{ag.location} {ag.type} {ag.properties}')
 
     # plot
-    plot_simulation(config.simulation.agent_type, config.simulation.name, territory_size, data)
-
+    plot_simulation(config.simulation.agent_type, config.simulation.name, territory_size, data, liveness_property)
 
 if __name__ == '__main__':
     main()
