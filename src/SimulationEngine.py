@@ -95,6 +95,8 @@ class Agent:
                     # Add https://stackoverflow.com/questions/26830697/moore-neighbourhood-in-python for "property" move
 
                     # should be here to avoid overlapping
+                    # since creating an agent is independent of this agent, we return a data structure with the new agent
+                    # properties, and the simulate function will create the new agent
                     if postcondition.action == Action.INTRODUCE_AGENTS:
                         if decision(options.probability_of_adding):
                             return options
