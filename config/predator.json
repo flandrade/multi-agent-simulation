@@ -1,7 +1,7 @@
 {
   "simulation": {
     "name": "Predator",
-    "steps": 20,
+    "steps": 5,
     "territory": {
       "width": 10,
       "height": 10,
@@ -304,7 +304,7 @@
           {
             "action": "introduce-agents",
             "options": {
-              "type": "woolf",
+              "agentType": "woolf",
               "amount": 1,
               "probabilityOfAdding": 0.5,
               "properties": [
@@ -495,7 +495,7 @@
           {
             "action": "introduce-agents",
             "options": {
-              "type": "sheep",
+              "agentType": "sheep",
               "amount": 1,
               "probabilityOfAdding": 0.5,
               "properties": [

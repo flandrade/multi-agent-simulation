@@ -34,8 +34,11 @@ class Agent:
             # check if the preconditions are satisfied
             preconditions_satisfied = []
             for precondition in rule.preconditions:
+                options = precondition.options
+                if precondition.condition == Condition.CHECK_PRESENCE:
+                    presence = [ag for ag in agents_in_same_location if ag.type == options.type]
+                    preconditions_satisfied.append(len(presence) > 0)
                 if precondition.condition == Condition.COMPARE_PROPERTY:
-                    options = precondition.options
                     if options.property_agent is not None:
                         # compare a property of the agent
                         value = self.properties[options.property_agent]
@@ -88,6 +91,8 @@ class Agent:
                             # change a property of the territory
                             if options.update_type == UpdateType.INCREASE:
                                 coordinate[options.property_territory] += options.value
+
+                    # Add https://stackoverflow.com/questions/26830697/moore-neighbourhood-in-python for "property" move
 
                     # should be here to avoid overlapping
                     if postcondition.action == Action.INTRODUCE_AGENTS:
@@ -151,7 +156,7 @@ def get_agent_properties(properties):
 
 def main():
     # open the JSON file and read the contents
-    with open('config/langton.json') as config_file:
+    with open('config/ant-colony.json') as config_file:
         conf = config_file.read()
     config = simulation_from_dict(json.loads(conf))
 

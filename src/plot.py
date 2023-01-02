@@ -44,6 +44,9 @@ def plot_simulation(types, name, territory_size, data, liveness_property):
                 x = [i[0] for i in value]
                 y = [i[1] for i in value]
                 scats.append(ax.scatter(x, y, s=150, marker=(5, 1), color=agent_colors[index].reshape(1,-1)))
+                legend1 = ax.legend(agent_types, loc="upper right", title="Agents")
+                ax.add_artist(legend1)
+
 
     ani = FuncAnimation(fig, update, frames=steps, repeat=False, interval=220)
 
