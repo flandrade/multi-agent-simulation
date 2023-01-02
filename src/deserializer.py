@@ -324,7 +324,7 @@ class AgentRule:
     description: str
     type: str
     preconditions: List[AgentRulePrecondition]
-    posconditions: List[AgentRulePoscondition]
+    postconditions: List[AgentRulePoscondition]
 
     @staticmethod
     def from_dict(obj: Any) -> 'AgentRule':
@@ -333,8 +333,8 @@ class AgentRule:
         description = from_str(obj.get("description"))
         type = from_str(obj.get("type"))
         preconditions = from_list(AgentRulePrecondition.from_dict, obj.get("preconditions"))
-        posconditions = from_list(AgentRulePoscondition.from_dict, obj.get("posconditions"))
-        return AgentRule(name, description, type, preconditions, posconditions)
+        postconditions = from_list(AgentRulePoscondition.from_dict, obj.get("postconditions"))
+        return AgentRule(name, description, type, preconditions, postconditions)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -342,7 +342,7 @@ class AgentRule:
         result["description"] = from_str(self.description)
         result["type"] = from_str(self.type)
         result["preconditions"] = from_list(lambda x: to_class(AgentRulePrecondition, x), self.preconditions)
-        result["posconditions"] = from_list(lambda x: to_class(AgentRulePoscondition, x), self.posconditions)
+        result["postconditions"] = from_list(lambda x: to_class(AgentRulePoscondition, x), self.postconditions)
         return result
 
 
@@ -537,7 +537,7 @@ class TerritoryRule:
     name: str
     description: str
     preconditions: List[TerritoryRulePrecondition]
-    posconditions: List[TerritoryRulePoscondition]
+    postconditions: List[TerritoryRulePoscondition]
 
     @staticmethod
     def from_dict(obj: Any) -> 'TerritoryRule':
@@ -545,15 +545,15 @@ class TerritoryRule:
         name = from_str(obj.get("name"))
         description = from_str(obj.get("description"))
         preconditions = from_list(TerritoryRulePrecondition.from_dict, obj.get("preconditions"))
-        posconditions = from_list(TerritoryRulePoscondition.from_dict, obj.get("posconditions"))
-        return TerritoryRule(name, description, preconditions, posconditions)
+        postconditions = from_list(TerritoryRulePoscondition.from_dict, obj.get("postconditions"))
+        return TerritoryRule(name, description, preconditions, postconditions)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["name"] = from_str(self.name)
         result["description"] = from_str(self.description)
         result["preconditions"] = from_list(lambda x: to_class(TerritoryRulePrecondition, x), self.preconditions)
-        result["posconditions"] = from_list(lambda x: to_class(TerritoryRulePoscondition, x), self.posconditions)
+        result["postconditions"] = from_list(lambda x: to_class(TerritoryRulePoscondition, x), self.postconditions)
         return result
 
 

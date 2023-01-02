@@ -44,7 +44,7 @@
         "description": "Agents move",
         "type": "person",
         "preconditions": [],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "move",
             "options": {
@@ -69,7 +69,7 @@
             }
           }
         ],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "change-property",
             "options": {

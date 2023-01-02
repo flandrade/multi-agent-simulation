@@ -124,7 +124,7 @@
             }
           }
         ],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "move",
             "options": {
@@ -160,7 +160,7 @@
             }
           }
         ],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "move",
             "options": {

@@ -1,7 +1,7 @@
 {
   "simulation": {
     "name": "Ant Colony",
-    "steps": 30,
+    "steps": 20,
     "territory": {
       "width": 20,
       "height": 20,
@@ -9,6 +9,10 @@
         "defaultProperties": [
           {
             "name": "pheromones",
+            "value": 0
+          },
+          {
+            "name": "units-of-food",
             "value": 0
           }
         ],
@@ -20,6 +24,10 @@
               {
                 "name": "pheromones",
                 "value": 2
+              },
+              {
+                "name": "units-of-food",
+                "value": 0
               }
             ]
           },
@@ -136,7 +144,7 @@
             "condition": "compare-property",
             "options": {
               "propertyAgent": null,
-              "propertyTerritory": "food",
+              "propertyTerritory": "units-of-food",
               "compare": "greater-than",
               "threshold": 0
             }
@@ -151,7 +159,7 @@
             }
           }
         ],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "change-property",
             "options": {
@@ -173,7 +181,7 @@
             "condition": "compare-property",
             "options": {
               "propertyAgent": null,
-              "propertyTerritory": "food",
+              "propertyTerritory": "units-of-food",
               "compare": "equal",
               "threshold": 0
             }
@@ -188,7 +196,7 @@
             }
           }
         ],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "move",
             "options": {
@@ -229,7 +237,7 @@
             }
           }
         ],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "change-property",
             "options": {
@@ -284,13 +292,13 @@
             }
           }
         ],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": null,
-              "propertyTerritory": "pheromone",
+              "propertyTerritory": "pheromones",
               "updateType": "increase",
               "value": 1
             }
@@ -301,7 +309,7 @@
               "steps": 1,
               "direction": "property",
               "propertyAgent": null,
-              "propertyTerritory": "pheromone",
+              "propertyTerritory": "pheromones",
               "compare": "highest"
             }
           }
@@ -340,7 +348,7 @@
             }
           }
         ],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "change-property",
             "options": {
@@ -395,7 +403,7 @@
             }
           }
         ],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "change-property",
             "options": {
@@ -418,19 +426,19 @@
             "condition": "compare-property",
             "options": {
               "propertyAgent": null,
-              "propertyTerritory": "pheromone",
+              "propertyTerritory": "pheromones",
               "compare": "greater-than",
               "threshold": 0
             }
           }
         ],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": null,
-              "propertyTerritory": "pheromone",
+              "propertyTerritory": "pheromones",
               "updateType": "decrease",
               "value": 1
             }

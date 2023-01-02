@@ -131,7 +131,7 @@
             }
           }
         ],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "change-property",
             "options": {
@@ -159,7 +159,7 @@
             }
           }
         ],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "move",
             "options": {
@@ -188,7 +188,7 @@
             }
           }
         ],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "change-property",
             "options": {
@@ -217,7 +217,7 @@
             }
           }
         ],
-        "posconditions": [
+        "postconditions": [
           {
             "action": "move",
             "options": {
