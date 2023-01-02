@@ -11,7 +11,7 @@ import random
 from plot import plot_simulation
 import uuid
 from deserializer import simulation_from_dict, Condition, Compare, Action, UpdateType, DirectionType
-from utils import normalize
+from utils import normalize, decision
 
 class Agent:
     def __init__(self, name, type, location, properties):
@@ -46,7 +46,7 @@ class Agent:
                         preconditions_satisfied.append(value > options.threshold)
                     elif options.compare == Compare.LESS_THAN:
                         preconditions_satisfied.append(value < options.threshold)
-                    elif options.compare == Compare.LESS_THAN:
+                    elif options.compare == Compare.EQUAL:
                         preconditions_satisfied.append(value == options.threshold)
                 # add other conditions as needed
 
@@ -91,7 +91,10 @@ class Agent:
 
                     # should be here to avoid overlapping
                     if postcondition.action == Action.INTRODUCE_AGENTS:
-                        return options
+                        if decision(options.probability_of_adding):
+                            return options
+                        else:
+                            pass
         return None
 
 class Territory:
@@ -148,7 +151,7 @@ def get_agent_properties(properties):
 
 def main():
     # open the JSON file and read the contents
-    with open('config/ant-colony.json') as config_file:
+    with open('config/predator.json') as config_file:
         conf = config_file.read()
     config = simulation_from_dict(json.loads(conf))
 

@@ -1,7 +1,7 @@
 {
   "simulation": {
     "name": "Predator",
-    "steps": 25,
+    "steps": 20,
     "territory": {
       "width": 10,
       "height": 10,
@@ -31,6 +31,10 @@
           {
             "name": "energy",
             "value": 8
+          },
+          {
+            "name": "is-alive",
+            "value": 1
           }
         ]
       },
@@ -45,6 +49,10 @@
           {
             "name": "energy",
             "value": 8
+          },
+          {
+            "name": "is-alive",
+            "value": 1
           }
         ]
       },
@@ -59,6 +67,10 @@
           {
             "name": "energy",
             "value": 8
+          },
+          {
+            "name": "is-alive",
+            "value": 1
           }
         ]
       },
@@ -73,6 +85,10 @@
           {
             "name": "energy",
             "value": 8
+          },
+          {
+            "name": "is-alive",
+            "value": 1
           }
         ]
       },
@@ -87,6 +103,10 @@
           {
             "name": "energy",
             "value": 8
+          },
+          {
+            "name": "is-alive",
+            "value": 1
           }
         ]
       },
@@ -101,13 +121,17 @@
           {
             "name": "energy",
             "value": 8
+          },
+          {
+            "name": "is-alive",
+            "value": 1
           }
         ]
       }
     ],
     "AgentType": [
       {
-        "name": "wolf"
+        "name": "woolf"
       },
       {
         "name": "sheep"
@@ -298,6 +322,31 @@
         ]
       },
       {
+        "name": "Rule 5 - Woolf",
+        "description": "wolves wander randomly around the landscape",
+        "type": "woolf",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          }
+        ],
+        "postconditions": [
+          {
+            "action": "move",
+            "options": {
+              "steps": 1,
+              "direction": "random"
+            }
+          }
+        ]
+      },
+      {
         "name": "Rule 1 - Sheep",
         "description": "Each step costs the sheep energy",
         "type": "sheep",
@@ -459,6 +508,31 @@
                   "value": 1
                 }
               ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Rule 5 - Sheep",
+        "description": "sheeps wander randomly around the landscape",
+        "type": "sheep",
+        "preconditions": [
+          {
+            "condition": "compare-property",
+            "options": {
+              "propertyAgent": "is-alive",
+              "propertyTerritory": null,
+              "compare": "equal",
+              "threshold": 1
+            }
+          }
+        ],
+        "postconditions": [
+          {
+            "action": "move",
+            "options": {
+              "steps": 1,
+              "direction": "random"
             }
           }
         ]
