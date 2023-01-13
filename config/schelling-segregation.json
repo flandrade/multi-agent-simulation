@@ -118,9 +118,9 @@
         "type": "race-1",
         "preconditions": [
           {
-            "condition": "get-neighbors",
+            "identifier": "get-neighbors",
             "options": {
-              "type": "race-1",
+              "agentType": "race-1",
               "propertyAgent": null,
               "compare": "equal",
               "threshold": 1,
@@ -133,7 +133,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": "happy",
@@ -150,7 +150,7 @@
         "type": "race-1",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "happy",
               "propertyTerritory": null,
@@ -161,9 +161,8 @@
         ],
         "postconditions": [
           {
-            "action": "move",
+            "identifier": "move",
             "options": {
-              "steps": 1,
               "direction": "free-random"
             }
           }
@@ -175,9 +174,9 @@
         "type": "race-2",
         "preconditions": [
           {
-            "condition": "get-neighbors",
+            "identifier": "get-neighbors",
             "options": {
-              "type": "race-2",
+              "agentType": "race-2",
               "propertyAgent": null,
               "compare": "equal",
               "threshold": 1,
@@ -190,7 +189,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": "happy",
@@ -207,9 +206,9 @@
         "type": "race-2",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
-              "type": "race-2",
+              "agentType": "race-2",
               "propertyAgent": "happy",
               "propertyTerritory": null,
               "compare": "equal",
@@ -219,9 +218,8 @@
         ],
         "postconditions": [
           {
-            "action": "move",
+            "identifier": "move",
             "options": {
-              "steps": 1,
               "direction": "free-random"
             }
           }

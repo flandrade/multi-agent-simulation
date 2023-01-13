@@ -35,10 +35,10 @@ class Agent:
             preconditions_satisfied = []
             for precondition in rule.preconditions:
                 options = precondition.options
-                if precondition.condition == Condition.CHECK_PRESENCE:
+                if precondition.identifier == Condition.CHECK_PRESENCE:
                     presence = [ag for ag in agents_in_same_location if ag.type == options.type]
                     preconditions_satisfied.append(len(presence) > 0)
-                if precondition.condition == Condition.COMPARE_PROPERTY:
+                if precondition.identifier == Condition.COMPARE_PROPERTY:
                     if options.property_agent is not None:
                         # compare a property of the agent
                         value = self.properties[options.property_agent]
@@ -57,12 +57,12 @@ class Agent:
             if all(preconditions_satisfied) and len(preconditions_satisfied) > 0:
                 for postcondition in rule.postconditions:
                     options = postcondition.options
-                    if postcondition.action == Action.MOVE:
+                    if postcondition.identifier == Action.MOVE:
                         if options.direction == DirectionType.RANDOM:
                             new_x = normalize(copy.deepcopy(self.location[0]) + random.randint(-1, 1), 0, territory.size[1] - 1)
                             new_y = normalize(copy.deepcopy(self.location[1]) + random.randint(-1, 1), 0, territory.size[1] - 1)
                             self.location = (new_x, new_y)
-                    if postcondition.action == Action.CHANGE_PROPERTY:
+                    if postcondition.identifier == Action.CHANGE_PROPERTY:
                         if options.property_agent is not None:
                             prev = self.properties[options.property_agent]
                             # change a property of the agent
@@ -97,7 +97,7 @@ class Agent:
                     # should be here to avoid overlapping
                     # since creating an agent is independent of this agent, we return a data structure with the new agent
                     # properties, and the simulate function will create the new agent
-                    if postcondition.action == Action.INTRODUCE_AGENTS:
+                    if postcondition.identifier == Action.INTRODUCE_AGENTS:
                         if decision(options.probability_of_adding):
                             return options
                         else:

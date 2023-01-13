@@ -87,7 +87,7 @@
         "type": "cell",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -96,9 +96,9 @@
             }
           },
           {
-            "condition": "get-neighbors",
+            "identifier": "get-neighbors",
             "options": {
-              "type": "cell",
+              "agentType": "cell",
               "propertyAgent": "is-alive",
               "compare": "equal",
               "threshold": 1,
@@ -111,7 +111,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": "is-alive",
@@ -128,7 +128,7 @@
         "type": "cell",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -137,9 +137,9 @@
             }
           },
           {
-            "condition": "get-neighbors",
+            "identifier": "get-neighbors",
             "options": {
-              "type": "cell",
+              "agentType": "cell",
               "propertyAgent": "is-alive",
               "compare": "equal",
               "threshold": 1,
@@ -152,7 +152,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": "is-alive",
@@ -169,7 +169,7 @@
         "type": "cell",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -178,9 +178,9 @@
             }
           },
           {
-            "condition": "get-neighbors",
+            "identifier": "get-neighbors",
             "options": {
-              "type": "cell",
+              "agentType": "cell",
               "propertyAgent": "is-alive",
               "compare": "equal",
               "threshold": 1,
@@ -193,7 +193,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": "is-alive",

@@ -190,7 +190,6 @@ class PurpleOptions:
     agent_type: Optional[str] = None
     update_type: Optional[UpdateType] = None
     value: Optional[int] = None
-    steps: Optional[int] = None
     direction: Optional[DirectionType] = None
     turn_degrees: Optional[int] = None
     affected: Optional[str] = None
@@ -208,15 +207,14 @@ class PurpleOptions:
         agent_type = from_union([from_str, from_none], obj.get("agentType"))
         update_type = from_union([UpdateType, from_none], obj.get("updateType"))
         value = from_union([from_int, from_none], obj.get("value"))
-        steps = from_union([from_int, from_none], obj.get("steps"))
         direction = from_union([DirectionType, from_none], obj.get("direction"))
         turn_degrees = from_union([from_int, from_none], obj.get("turnDegrees"))
-        affected = from_union([from_str, from_none], obj.get("affected"))
+        affected = from_union([from_str, from_none], obj.get("agentType"))
         compare = from_union([CompareNeighbor, from_none], obj.get("compare"))
         amount = from_union([from_int, from_none], obj.get("amount"))
         probability_of_adding = from_union([from_float, from_none], obj.get("probabilityOfAdding"))
         properties = from_union([lambda x: from_list(Property.from_dict, x), from_none], obj.get("properties"))
-        return PurpleOptions(probability_of_changing, property_agent, property_territory, agent_type, update_type, value, steps, direction, turn_degrees, affected, compare, amount, probability_of_adding, properties)
+        return PurpleOptions(probability_of_changing, property_agent, property_territory, agent_type, update_type, value, direction, turn_degrees, affected, compare, amount, probability_of_adding, properties)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -226,10 +224,9 @@ class PurpleOptions:
         result["agent_type"] = from_union([from_str, from_none], self.agent_type)
         result["update_type"] = from_union([lambda x: to_enum(UpdateType, x), from_none], self.update_type)
         result["value"] = from_union([from_int, from_none], self.value)
-        result["steps"] = from_union([from_int, from_none], self.steps)
         result["direction"] = from_union([lambda x: to_enum(DirectionType, x), from_none], self.direction)
         result["turnDegrees"] = from_union([from_int, from_none], self.turn_degrees)
-        result["affected"] = from_union([from_str, from_none], self.affected)
+        result["agentType"] = from_union([from_str, from_none], self.affected)
         result["compare"] = from_union([lambda x: to_enum(CompareNeighbor, x), from_none], self.compare)
         result["amount"] = from_union([from_int, from_none], self.amount)
         result["probabilityOfAdding"] = from_union([from_float, from_none], self.probability_of_adding)
@@ -238,20 +235,20 @@ class PurpleOptions:
 
 
 @dataclass
-class AgentRulePoscondition:
-    action: Action
+class RulePoscondition:
+    identifier: Action
     options: PurpleOptions
 
     @staticmethod
-    def from_dict(obj: Any) -> 'AgentRulePoscondition':
+    def from_dict(obj: Any) -> 'RulePoscondition':
         assert isinstance(obj, dict)
-        action = Action(obj.get("action"))
+        identifier = Action(obj.get("identifier"))
         options = PurpleOptions.from_dict(obj.get("options"))
-        return AgentRulePoscondition(action, options)
+        return RulePoscondition(identifier, options)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["action"] = to_enum(Action, self.action)
+        result["identifier"] = to_enum(Action, self.action)
         result["options"] = to_class(PurpleOptions, self.options)
         return result
 
@@ -276,7 +273,7 @@ class FluffyOptions:
         property_territory = from_union([from_none, from_str], obj.get("propertyTerritory"))
         compare = from_union([Compare, from_none], obj.get("compare"))
         threshold = from_union([from_int, from_none], obj.get("threshold"))
-        type = from_union([from_str, from_none], obj.get("type"))
+        type = from_union([from_str, from_none], obj.get("agentType"))
         value = from_union([from_int, from_none], obj.get("value"))
         compare_amount_agents_high = from_union([from_str, from_none], obj.get("compareAmountAgentsHigh"))
         threshold_amount_agents_high = from_union([from_int, from_none], obj.get("thresholdAmountAgentsHigh"))
@@ -290,7 +287,7 @@ class FluffyOptions:
         result["propertyTerritory"] = from_union([from_none, from_str], self.property_territory)
         result["compare"] = from_union([lambda x: to_enum(Compare, x), from_none], self.compare)
         result["threshold"] = from_union([from_int, from_none], self.threshold)
-        result["type"] = from_union([from_str, from_none], self.type)
+        result["agentType"] = from_union([from_str, from_none], self.type)
         result["value"] = from_union([from_int, from_none], self.value)
         result["compareAmountAgentsHigh"] = from_union([from_str, from_none], self.compare_amount_agents_high)
         result["thresholdAmountAgentsHigh"] = from_union([from_int, from_none], self.threshold_amount_agents_high)
@@ -301,19 +298,19 @@ class FluffyOptions:
 
 @dataclass
 class AgentRulePrecondition:
-    condition: Condition
+    identifier: Condition
     options: FluffyOptions
 
     @staticmethod
     def from_dict(obj: Any) -> 'AgentRulePrecondition':
         assert isinstance(obj, dict)
-        condition = Condition(obj.get("condition"))
+        identifier = Condition(obj.get("identifier"))
         options = FluffyOptions.from_dict(obj.get("options"))
-        return AgentRulePrecondition(condition, options)
+        return AgentRulePrecondition(identifier, options)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["condition"] = to_enum(Condition, self.condition)
+        result["identifier"] = to_enum(Condition, self.identifier)
         result["options"] = to_class(FluffyOptions, self.options)
         return result
 
@@ -321,28 +318,28 @@ class AgentRulePrecondition:
 @dataclass
 class AgentRule:
     name: str
-    description: str
+    description: Optional[str]
     type: str
     preconditions: List[AgentRulePrecondition]
-    postconditions: List[AgentRulePoscondition]
+    postconditions: List[RulePoscondition]
 
     @staticmethod
     def from_dict(obj: Any) -> 'AgentRule':
         assert isinstance(obj, dict)
         name = from_str(obj.get("name"))
-        description = from_str(obj.get("description"))
+        description = from_union([from_str, from_none], obj.get("description"))
         type = from_str(obj.get("type"))
         preconditions = from_list(AgentRulePrecondition.from_dict, obj.get("preconditions"))
-        postconditions = from_list(AgentRulePoscondition.from_dict, obj.get("postconditions"))
+        postconditions = from_list(RulePoscondition.from_dict, obj.get("postconditions"))
         return AgentRule(name, description, type, preconditions, postconditions)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["name"] = from_str(self.name)
-        result["description"] = from_str(self.description)
+        result["description"] = from_union([from_str, from_none], self.description)
         result["type"] = from_str(self.type)
         result["preconditions"] = from_list(lambda x: to_class(AgentRulePrecondition, x), self.preconditions)
-        result["postconditions"] = from_list(lambda x: to_class(AgentRulePoscondition, x), self.postconditions)
+        result["postconditions"] = from_list(lambda x: to_class(RulePoscondition, x), self.postconditions)
         return result
 
 
@@ -470,90 +467,46 @@ class Territory:
 
 
 @dataclass
-class TerritoryRulePoscondition:
-    action: Action
-    options: PurpleOptions
-
-    @staticmethod
-    def from_dict(obj: Any) -> 'TerritoryRulePoscondition':
-        assert isinstance(obj, dict)
-        action = Action(obj.get("action"))
-        options = PurpleOptions.from_dict(obj.get("options"))
-        return TerritoryRulePoscondition(action, options)
-
-    def to_dict(self) -> dict:
-        result: dict = {}
-        result["action"] = to_enum(Action, self.action)
-        result["options"] = to_class(PurpleOptions, self.options)
-        return result
-
-
-@dataclass
-class StickyOptions:
-    compare: Compare
-    threshold: int
-    property_agent: Optional[str] = None
-    property_territory: Optional[str] = None
-
-    @staticmethod
-    def from_dict(obj: Any) -> 'StickyOptions':
-        assert isinstance(obj, dict)
-        property_territory = from_union([from_str, from_none], obj.get("propertyTerritory"))
-        property_agent = from_union([from_str, from_none], obj.get("propertyAgent"))
-        compare = Compare(obj.get("compare"))
-        threshold = from_int(obj.get("threshold"))
-        return StickyOptions(compare, threshold, property_agent, property_territory)
-
-    def to_dict(self) -> dict:
-        result: dict = {}
-        result["propertyTerritory"] = from_union([from_str, from_none], self.property_territory)
-        result["propertyAgent"] = from_union([from_str, from_none], self.property_agent)
-        result["compare"] = to_enum(Compare, self.compare)
-        result["threshold"] = from_int(self.threshold)
-        return result
-
-
-@dataclass
 class TerritoryRulePrecondition:
-    condition: Condition
-    options: StickyOptions
+    identifier: Condition
+    options: FluffyOptions
 
     @staticmethod
     def from_dict(obj: Any) -> 'TerritoryRulePrecondition':
         assert isinstance(obj, dict)
-        condition = Condition(obj.get("condition"))
-        options = StickyOptions.from_dict(obj.get("options"))
-        return TerritoryRulePrecondition(condition, options)
+        identifier = Condition(obj.get("identifier"))
+        options = FluffyOptions.from_dict(obj.get("options"))
+        return TerritoryRulePrecondition(identifier, options)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["condition"] = to_enum(Condition, self.condition)
-        result["options"] = to_class(StickyOptions, self.options)
+        result["identifier"] = to_enum(Condition, self.identifier)
+        result["options"] = to_class(FluffyOptions, self.options)
         return result
 
 
 @dataclass
 class TerritoryRule:
     name: str
-    description: str
+    description: Optional[str]
     preconditions: List[TerritoryRulePrecondition]
-    postconditions: List[TerritoryRulePoscondition]
+    postconditions: List[RulePoscondition]
 
     @staticmethod
     def from_dict(obj: Any) -> 'TerritoryRule':
         assert isinstance(obj, dict)
         name = from_str(obj.get("name"))
-        description = from_str(obj.get("description"))
+        description = from_union([from_str, from_none], obj.get("description"))
         preconditions = from_list(TerritoryRulePrecondition.from_dict, obj.get("preconditions"))
-        postconditions = from_list(TerritoryRulePoscondition.from_dict, obj.get("postconditions"))
+        postconditions = from_list(RulePoscondition.from_dict, obj.get("postconditions"))
         return TerritoryRule(name, description, preconditions, postconditions)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["name"] = from_str(self.name)
-        result["description"] = from_str(self.description)
+        result["description"] = from_union([from_str, from_none], self.description)
         result["preconditions"] = from_list(lambda x: to_class(TerritoryRulePrecondition, x), self.preconditions)
-        result["postconditions"] = from_list(lambda x: to_class(TerritoryRulePoscondition, x), self.postconditions)
+        result["postconditions"] = from_list(lambda x: to_class(RulePoscondition, x), self.postconditions)
         return result
 
 

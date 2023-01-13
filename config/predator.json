@@ -162,7 +162,7 @@
         "type": "woolf",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "energy",
               "propertyTerritory": null,
@@ -171,7 +171,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -182,7 +182,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": "energy",
@@ -199,7 +199,7 @@
         "type": "woolf",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "energy",
               "propertyTerritory": null,
@@ -208,7 +208,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -217,16 +217,16 @@
             }
           },
           {
-            "condition": "check-presence",
+            "identifier": "check-presence",
             "options": {
-              "type": "sheep",
+              "agentType": "sheep",
               "value": 1
             }
           }
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": "energy",
@@ -236,9 +236,9 @@
             }
           },
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
-              "affected": "sheep",
+              "agentType": "sheep",
               "probabilityOfChanging": 1,
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -254,7 +254,7 @@
         "type": "woolf",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "energy",
               "propertyTerritory": null,
@@ -263,7 +263,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -274,7 +274,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": "is-alive",
@@ -291,7 +291,7 @@
         "type": "woolf",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -302,7 +302,7 @@
         ],
         "postconditions": [
           {
-            "action": "introduce-agents",
+            "identifier": "introduce-agents",
             "options": {
               "agentType": "woolf",
               "amount": 1,
@@ -327,7 +327,7 @@
         "type": "woolf",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -338,9 +338,8 @@
         ],
         "postconditions": [
           {
-            "action": "move",
+            "identifier": "move",
             "options": {
-              "steps": 1,
               "direction": "random"
             }
           }
@@ -352,7 +351,7 @@
         "type": "sheep",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "energy",
               "propertyTerritory": null,
@@ -361,7 +360,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -372,7 +371,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": "energy",
@@ -389,7 +388,7 @@
         "type": "sheep",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "energy",
               "propertyTerritory": null,
@@ -398,7 +397,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -407,7 +406,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": null,
               "propertyTerritory": "grass",
@@ -418,7 +417,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": null,
@@ -428,7 +427,7 @@
             }
           },
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": null,
@@ -445,7 +444,7 @@
         "type": "sheep",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "energy",
               "propertyTerritory": null,
@@ -454,7 +453,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -465,7 +464,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": "is-alive",
@@ -482,7 +481,7 @@
         "type": "sheep",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -493,7 +492,7 @@
         ],
         "postconditions": [
           {
-            "action": "introduce-agents",
+            "identifier": "introduce-agents",
             "options": {
               "agentType": "sheep",
               "amount": 1,
@@ -518,7 +517,7 @@
         "type": "sheep",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -529,9 +528,8 @@
         ],
         "postconditions": [
           {
-            "action": "move",
+            "identifier": "move",
             "options": {
-              "steps": 1,
               "direction": "random"
             }
           }
@@ -544,7 +542,7 @@
         "description": "Once grass is eaten it will only regrow after a fixed amount of time.",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": null,
               "propertyTerritory": "count-since-removed",
@@ -555,7 +553,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": null,
@@ -565,7 +563,7 @@
             }
           },
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": null,
@@ -581,7 +579,7 @@
         "description": "Once grass is eaten, keep track of the time that has passed",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": null,
               "propertyTerritory": "grass",
@@ -592,7 +590,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": null,

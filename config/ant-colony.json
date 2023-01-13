@@ -1,7 +1,7 @@
 {
   "simulation": {
     "name": "Ant Colony",
-    "steps": 20,
+    "steps": 5,
     "territory": {
       "width": 10,
       "height": 10,
@@ -159,7 +159,7 @@
         "type": "worker-ant",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": null,
               "propertyTerritory": "units-of-food",
@@ -168,7 +168,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "load",
               "propertyTerritory": null,
@@ -177,7 +177,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -188,7 +188,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": "load",
@@ -205,7 +205,7 @@
         "type": "worker-ant",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": null,
               "propertyTerritory": "units-of-food",
@@ -214,7 +214,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "load",
               "propertyTerritory": null,
@@ -223,7 +223,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -234,9 +234,8 @@
         ],
         "postconditions": [
           {
-            "action": "move",
+            "identifier": "move",
             "options": {
-              "steps": 1,
               "direction": "random"
             }
           }
@@ -248,7 +247,7 @@
         "type": "worker-ant",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "load",
               "propertyTerritory": null,
@@ -257,7 +256,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -266,16 +265,16 @@
             }
           },
           {
-            "condition": "check-presence",
+            "identifier": "check-presence",
             "options": {
-              "type": "queen-ant",
+              "agentType": "queen-ant",
               "value": 1
             }
           }
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": "load",
@@ -285,9 +284,9 @@
             }
           },
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
-              "affected": "queen-ant",
+              "agentType": "queen-ant",
               "probabilityOfChanging": 1,
               "propertyAgent": "food",
               "propertyTerritory": null,
@@ -303,7 +302,7 @@
         "type": "worker-ant",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "load",
               "propertyTerritory": null,
@@ -312,7 +311,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -321,16 +320,16 @@
             }
           },
           {
-            "condition": "check-presence",
+            "identifier": "check-presence",
             "options": {
-              "type": "queen-ant",
+              "agentType": "queen-ant",
               "value": 0
             }
           }
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": null,
@@ -340,9 +339,9 @@
             }
           },
           {
-            "action": "move",
+            "identifier": "move",
             "options": {
-              "steps": 1,
+              "stepdds": 1,
               "direction": "property",
               "propertyAgent": null,
               "propertyTerritory": "pheromones",
@@ -357,7 +356,7 @@
         "type": "queen-ant",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "food",
               "propertyTerritory": null,
@@ -366,7 +365,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -375,7 +374,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "food",
               "propertyTerritory": null,
@@ -386,7 +385,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": "food",
@@ -396,7 +395,7 @@
             }
           },
           {
-            "action": "introduce-agents",
+            "identifier": "introduce-agents",
             "options": {
               "agentType": "worker-ant",
               "amount": 1,
@@ -421,7 +420,7 @@
         "type": "queen-ant",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "food",
               "propertyTerritory": null,
@@ -430,7 +429,7 @@
             }
           },
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "is-alive",
               "propertyTerritory": null,
@@ -441,7 +440,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": "is-alive",
@@ -459,7 +458,7 @@
         "description": "Decreasing the pheromones of each coordinate of the territory if its value is greater than 0",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": null,
               "propertyTerritory": "pheromones",
@@ -470,7 +469,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": null,

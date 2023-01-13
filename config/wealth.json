@@ -46,9 +46,8 @@
         "preconditions": [],
         "postconditions": [
           {
-            "action": "move",
+            "identifier": "move",
             "options": {
-              "steps": 1,
               "direction": "free-random"
             }
           }
@@ -60,7 +59,7 @@
         "type": "person",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": "money",
               "propertyTerritory": null,
@@ -71,7 +70,7 @@
         ],
         "postconditions": [
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 0.5,
               "propertyAgent": "money",

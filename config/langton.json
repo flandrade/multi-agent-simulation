@@ -115,7 +115,7 @@
         "type": "ant",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": null,
               "propertyTerritory": "color",
@@ -126,15 +126,14 @@
         ],
         "postconditions": [
           {
-            "action": "move",
+            "identifier": "move",
             "options": {
-              "steps": 1,
               "direction": "degrees",
               "turnDegrees": 90
             }
           },
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": null,
@@ -151,7 +150,7 @@
         "type": "ant",
         "preconditions": [
           {
-            "condition": "compare-property",
+            "identifier": "compare-property",
             "options": {
               "propertyAgent": null,
               "propertyTerritory": "color",
@@ -162,15 +161,14 @@
         ],
         "postconditions": [
           {
-            "action": "move",
+            "identifier": "move",
             "options": {
-              "steps": 1,
               "direction": "degrees",
               "turnDegrees": 270
             }
           },
           {
-            "action": "change-property",
+            "identifier": "change-property",
             "options": {
               "probabilityOfChanging": 1,
               "propertyAgent": null,
