@@ -151,9 +151,31 @@ class Territory:
                 territory_properties[(coord_data.x, coord_data.y)] = coord_properties
             self.coordinates = territory_properties
 
-    def apply_evolution_rules(self):
+
+    def apply_evolution_rules(self,rules):
         # implement the logic for applying the evolution rules for the territory
-        pass
+        # apply each behavior rule in turn
+        for rule in rules:
+            # check if the preconditions are satisfied
+            preconditions_satisfied = []
+            for precondition in rule.preconditions:
+                options = precondition.options
+                if precondition.identifier == Condition.COMPARE_PROPERTY:
+                    for coord in self.coordinates:
+                        value = self.coordinates[coord]["pheromones"]
+                        if options.compare == Compare.GREATER_THAN:
+                             preconditions_satisfied.append(value > options.threshold)
+
+            if all(preconditions_satisfied) and len(preconditions_satisfied) > 0:
+                   for postcondition in rule.postconditions:
+                       options = postcondition.options
+                       if postcondition.identifier == Action.CHANGE_PROPERTY:
+                           if options.property_territory == "pheromones":
+                               if options.update_type == UpdateType.DECREASE:
+                                   for coord in self.coordinates:
+                                        self.coordinates[coord]["pheromones"] -=1
+
+
 
 def simulate(agents, territory, steps, rules):
     new_data = []
@@ -170,7 +192,7 @@ def simulate(agents, territory, steps, rules):
                 new_agent = Agent(str(uuid.uuid4()), result.agent_type, agent.location, get_agent_properties(result.properties))
                 agents.append(new_agent)
             # apply the evolution rules for the territory
-        territory.apply_evolution_rules()
+        territory.apply_evolution_rules(rules)
         this_agents = copy.deepcopy(agents)
         this_territory = copy.deepcopy(territory)
         #print("----")
