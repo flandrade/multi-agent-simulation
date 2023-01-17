@@ -346,7 +346,6 @@
           {
             "identifier": "move",
             "options": {
-              "stepdds": 1,
               "direction": "property",
               "propertyAgent": null,
               "propertyTerritory": "pheromones",
