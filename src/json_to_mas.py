@@ -5,6 +5,7 @@ It's ugly, I know, we shouldn't include in the project assets
 
 import json
 from deserializer import simulation_from_dict
+import enum
 
 def ident(number):
     return " "*number*4
@@ -86,14 +87,18 @@ def main():
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
-                if(isinstance(getattr(precondition.options, key), str)):
-                    print(f'{ident(5)}Option {get_condition(key)} value: "{attribute_value}"')
+                if key in string_options and attribute_value is not None:
+                    final_value: attribute_value
+                    if isinstance(attribute_value, enum.Enum):
+                        final_value = attribute_value.value
+
+                    print(f'{ident(5)}Option {get_condition(key)} value: "{final_value}"')
 
             print(f'{ident(4)}optionsInt:')
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
-                if(isinstance(getattr(precondition.options, key), int)):
+                if key in int_options and attribute_value is not None:
                     print(f'{ident(5)}Option {get_condition(key)} value: {attribute_value}')
 
         print(f'{ident(2)}postconditions:')
@@ -103,14 +108,18 @@ def main():
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
-                if(isinstance(getattr(precondition.options, key), str)):
-                    print(f'{ident(5)}Option {get_condition(key)} value: "{attribute_value}"')
+                if key in string_options and attribute_value is not None:
+                    final_value: attribute_value
+                    if isinstance(attribute_value, enum.Enum):
+                        final_value = attribute_value.value
+
+                    print(f'{ident(5)}Option {get_condition(key)} value: "{final_value}"')
 
             print(f'{ident(4)}optionsInt:')
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
-                if(isinstance(getattr(precondition.options, key), int)):
+                if key in int_options and attribute_value is not None:
                     print(f'{ident(5)}Option {get_condition(key)} value: {attribute_value}')
 
 
@@ -125,14 +134,18 @@ def main():
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
-                if(isinstance(getattr(precondition.options, key), str)):
-                    print(f'{ident(5)}Option {get_condition(key)} value: "{attribute_value}"')
+                if key in string_options and attribute_value is not None:
+                    final_value: attribute_value
+                    if isinstance(attribute_value, enum.Enum):
+                        final_value = attribute_value.value
+
+                    print(f'{ident(5)}Option {get_condition(key)} value: "{final_value}"')
 
             print(f'{ident(4)}optionsInt:')
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
-                if(isinstance(getattr(precondition.options, key), int)):
+                if key in int_options and attribute_value is not None:
                     print(f'{ident(5)}Option {get_condition(key)} value: {attribute_value}')
 
         print(f'{ident(2)}postconditions:')
@@ -140,16 +153,18 @@ def main():
             print(f'{ident(3)}Condition "{precondition.identifier.value}"')
             print(f'{ident(4)}optionsString:')
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
-            for key in options:
-                attribute_value = getattr(precondition.options, key)
-                if(isinstance(getattr(precondition.options, key), str)):
-                    print(f'{ident(5)}Option {get_condition(key)} value: "{attribute_value}"')
+            if key in string_options and attribute_value is not None:
+                    final_value: attribute_value
+                    if isinstance(attribute_value, enum.Enum):
+                        final_value = attribute_value.value
+
+                    print(f'{ident(5)}Option {get_condition(key)} value: "{final_value}"')
 
             print(f'{ident(4)}optionsInt:')
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
-                if(isinstance(getattr(precondition.options, key), int)):
+                if key in int_options and attribute_value is not None:
                     print(f'{ident(5)}Option {get_condition(key)} value: {attribute_value}')
 
 if __name__ == '__main__':
