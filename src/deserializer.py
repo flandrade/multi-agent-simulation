@@ -380,7 +380,7 @@ class LocatedAt:
 
 @dataclass
 class Agent:
-    name: int
+    name: str
     type: str
     located_at: LocatedAt
     properties: List[Property]
@@ -388,7 +388,7 @@ class Agent:
     @staticmethod
     def from_dict(obj: Any) -> 'Agent':
         assert isinstance(obj, dict)
-        name = int(from_str(obj.get("name")))
+        name = from_str(obj.get("name"))
         type = from_str(obj.get("type"))
         located_at = LocatedAt.from_dict(obj.get("locatedAt"))
         properties = from_list(Property.from_dict, obj.get("properties"))
@@ -405,6 +405,7 @@ class Agent:
 
 @dataclass
 class Coordinate:
+    name: str
     x: int
     y: int
     properties: List[Property]
@@ -412,13 +413,15 @@ class Coordinate:
     @staticmethod
     def from_dict(obj: Any) -> 'Coordinate':
         assert isinstance(obj, dict)
+        name = from_str(obj.get("name"))
         x = from_int(obj.get("x"))
         y = from_int(obj.get("y"))
         properties = from_list(Property.from_dict, obj.get("properties"))
-        return Coordinate(x, y, properties)
+        return Coordinate(name, x, y, properties,)
 
     def to_dict(self) -> dict:
         result: dict = {}
+        result["name"] = from_str(str(self.name))
         result["x"] = from_int(self.x)
         result["y"] = from_int(self.y)
         result["properties"] = from_list(lambda x: to_class(Property, x), self.properties)

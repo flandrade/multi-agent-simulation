@@ -6,6 +6,7 @@
       "width": 10,
       "height": 10,
       "defaultCoordinate": {
+        "name": "0",
         "x": 0,
         "y": 0,
         "properties": [
@@ -21,6 +22,7 @@
       },
       "coordinates": [
         {
+          "name": "2",
           "x": 2,
           "y": 2,
           "properties": [
@@ -35,6 +37,7 @@
           ]
         },
         {
+          "name": "4",
           "x": 4,
           "y": 4,
           "properties": [
