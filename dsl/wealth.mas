@@ -1,0 +1,31 @@
+name: "Statistical mechanics approach to wealth distribution"
+steps: 25
+territory:
+    width: 20
+    height: 20
+agents:
+    Agent name: "1" type: "person"
+        locatedAt:
+            Coordinate x: 0 y: 0
+        properties:
+            AgentProperty name: "money" value: 1 representLiveness: false
+agentRules:
+    AgentRule name: "Rule 1" type: "person"
+        description: "Agents move"
+        postconditions:
+            Postcondition identifier: "move"
+                optionsInt:
+    AgentRule name: "Rule 2" type: "person"
+        description: "Agents with positive wealth randomly selects a trading partner and gives them one unit of their wealth"
+        preconditions:
+            Precondition identifier: "compare-property"
+                optionsString:
+                    Option name: "property_agent" value: "money"
+                optionsInt:
+                    Option name: "threshold" value: 0
+        postconditions:
+            Postcondition identifier: "change-property"
+                optionsString:
+                    Option name: "property_agent" value: "money"
+                optionsInt:
+                    Option name: "value" value: 1

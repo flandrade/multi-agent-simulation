@@ -5,8 +5,10 @@
     "territory": {
       "width": 10,
       "height": 10,
-      "coordinates": {
-        "defaultProperties": [
+      "defaultCoordinate": {
+        "x": 0,
+        "y": 0,
+        "properties": [
           {
             "name": "pheromones",
             "value": 0
@@ -15,38 +17,38 @@
             "name": "units-of-food",
             "value": 0
           }
-        ],
-        "configuration": [
-          {
-            "x": 2,
-            "y": 2,
-            "properties": [
-              {
-                "name": "pheromones",
-                "value": 2
-              },
-              {
-                "name": "units-of-food",
-                "value": 0
-              }
-            ]
-          },
-          {
-            "x": 4,
-            "y": 4,
-            "properties": [
-              {
-                "name": "pheromones",
-                "value": 1
-              },
-              {
-                "name": "units-of-food",
-                "value": 3
-              }
-            ]
-          }
         ]
-      }
+      },
+      "coordinates": [
+        {
+          "x": 2,
+          "y": 2,
+          "properties": [
+            {
+              "name": "pheromones",
+              "value": 2
+            },
+            {
+              "name": "units-of-food",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "x": 4,
+          "y": 4,
+          "properties": [
+            {
+              "name": "pheromones",
+              "value": 1
+            },
+            {
+              "name": "units-of-food",
+              "value": 3
+            }
+          ]
+        }
+      ]
     },
     "agents": [
       {

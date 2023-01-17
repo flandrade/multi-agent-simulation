@@ -5,8 +5,10 @@
     "territory": {
       "width": 10,
       "height": 10,
-      "coordinates": {
-        "defaultProperties": [
+      "defaultCoordinate": {
+        "x": 0,
+        "y": 0,
+        "properties": [
           {
             "name": "grass",
             "value": 1
@@ -15,8 +17,7 @@
             "name": "count-since-removed",
             "value": 0
           }
-        ],
-        "configuration": []
+        ]
       }
     },
     "agents": [

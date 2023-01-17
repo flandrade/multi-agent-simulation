@@ -1,0 +1,94 @@
+name: "Schelling's segregation model"
+steps: 25
+territory:
+    width: 50
+    height: 50
+agents:
+    Agent name: "1" type: "race-1"
+        locatedAt:
+            Coordinate x: 0 y: 0
+        properties:
+            AgentProperty name: "happy" value: 0 representLiveness: false
+    Agent name: "2" type: "race-1"
+        locatedAt:
+            Coordinate x: 1 y: 1
+        properties:
+            AgentProperty name: "happy" value: 0 representLiveness: false
+    Agent name: "3" type: "race-1"
+        locatedAt:
+            Coordinate x: 2 y: 2
+        properties:
+            AgentProperty name: "happy" value: 0 representLiveness: false
+    Agent name: "4" type: "race-2"
+        locatedAt:
+            Coordinate x: 0 y: 1
+        properties:
+            AgentProperty name: "happy" value: 0 representLiveness: false
+    Agent name: "5" type: "race-2"
+        locatedAt:
+            Coordinate x: 0 y: 2
+        properties:
+            AgentProperty name: "happy" value: 0 representLiveness: false
+    Agent name: "6" type: "race-2"
+        locatedAt:
+            Coordinate x: 0 y: 3
+        properties:
+            AgentProperty name: "happy" value: 0 representLiveness: false
+agentRules:
+    AgentRule name: "Rule 1 - race-1" type: "race-1"
+        description: "If an agent has at least k=3 neighbors belonging to the same group, then it is happy"
+        preconditions:
+            Precondition identifier: "get-neighbors"
+                optionsString:
+                    Option name: "compare_amount_agents_high" value: "greater-than"
+                    Option name: "compare_amount_agents_low" value: "greater-than"
+                    Option name: "type" value: "race-1"
+                optionsInt:
+                    Option name: "threshold" value: 1
+                    Option name: "threshold_amount_agents_high" value: 2
+                    Option name: "threshold_amount_agents_low" value: 2
+        postconditions:
+            Postcondition identifier: "change-property"
+                optionsString:
+                    Option name: "property_agent" value: "happy"
+                optionsInt:
+                    Option name: "value" value: 1
+    AgentRule name: "Rule 2 - race-1" type: "race-1"
+        description: "If an agent is unhappy, it keeps moving to new locations until it is happy, while respecting the 1-agent-per-position rule"
+        preconditions:
+            Precondition identifier: "compare-property"
+                optionsString:
+                    Option name: "property_agent" value: "happy"
+                optionsInt:
+                    Option name: "threshold" value: 0
+        postconditions:
+            Postcondition identifier: "move"
+    AgentRule name: "Rule 3 - race-2" type: "race-2"
+        description: "If an agent has at least k=3 neighbors belonging to the same group, then it is happy"
+        preconditions:
+            Precondition identifier: "get-neighbors"
+                optionsString:
+                    Option name: "compare_amount_agents_high" value: "greater-than"
+                    Option name: "compare_amount_agents_low" value: "greater-than"
+                    Option name: "type" value: "race-2"
+                optionsInt:
+                    Option name: "threshold" value: 1
+                    Option name: "threshold_amount_agents_high" value: 2
+                    Option name: "threshold_amount_agents_low" value: 2
+        postconditions:
+            Postcondition identifier: "change-property"
+                optionsString:
+                    Option name: "property_agent" value: "happy"
+                optionsInt:
+                    Option name: "value" value: 1
+    AgentRule name: "Rule 4 - race-2" type: "race-2"
+        description: "If an agent is unhappy, it keeps moving to new locations until it is happy, while respecting the 1-agent-per-position rule"
+        preconditions:
+            Precondition identifier: "compare-property"
+                optionsString:
+                    Option name: "property_agent" value: "happy"
+                    Option name: "type" value: "race-2"
+                optionsInt:
+                    Option name: "threshold" value: 0
+        postconditions:
+            Postcondition identifier: "move"

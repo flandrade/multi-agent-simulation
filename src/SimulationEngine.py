@@ -109,18 +109,21 @@ class Territory:
         self.size = (territory.width, territory.height)
         # extract the territory coordinates and their properties from the JSON file
         territory_properties = {}
-        coord_properties = {}
-        for prop in territory.coordinates.default_properties:
-            coord_properties[prop.name] = prop.value
-        for i in range (0, self.size[0]):
-            for j in range (0, self.size[1]):
-                territory_properties[(i, j)] = coord_properties
-        for coord_data in territory.coordinates.configuration:
+        if territory.default_coordinate.properties is not None:
             coord_properties = {}
-            for prop in coord_data.properties:
+            for prop in territory.default_coordinate.properties:
                 coord_properties[prop.name] = prop.value
-            territory_properties[(coord_data.x, coord_data.y)] = coord_properties
-        self.coordinates = territory_properties
+            for i in range (0, self.size[0]):
+                for j in range (0, self.size[1]):
+                    territory_properties[(i, j)] = coord_properties
+
+        if territory.coordinates is not None:
+            for coord_data in territory.coordinates:
+                coord_properties = {}
+                for prop in coord_data.properties:
+                    coord_properties[prop.name] = prop.value
+                territory_properties[(coord_data.x, coord_data.y)] = coord_properties
+            self.coordinates = territory_properties
 
     def apply_evolution_rules(self):
         # implement the logic for applying the evolution rules for the territory

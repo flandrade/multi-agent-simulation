@@ -1,0 +1,99 @@
+name: "Conway"
+steps: 25
+territory:
+    width: 10
+    height: 10
+agents:
+    Agent name: "1" type: "cell"
+        locatedAt:
+            Coordinate x: 0 y: 0
+        properties:
+            AgentProperty name: "is-alive" value: 1 representLiveness: true
+    Agent name: "2" type: "cell"
+        locatedAt:
+            Coordinate x: 2 y: 3
+        properties:
+            AgentProperty name: "is-alive" value: 1 representLiveness: true
+    Agent name: "3" type: "cell"
+        locatedAt:
+            Coordinate x: 3 y: 5
+        properties:
+            AgentProperty name: "is-alive" value: 0 representLiveness: true
+    Agent name: "4" type: "cell"
+        locatedAt:
+            Coordinate x: 4 y: 5
+        properties:
+            AgentProperty name: "is-alive" value: 1 representLiveness: true
+agentRules:
+    AgentRule name: "Rule 1" type: "cell"
+        description: "Any live cell with two or three live neighbours survives"
+        preconditions:
+            Precondition identifier: "compare-property"
+                optionsString:
+                    Option name: "property_agent" value: "is-alive"
+                optionsInt:
+                    Option name: "threshold" value: 1
+            Precondition identifier: "get-neighbors"
+                optionsString:
+                    Option name: "compare_amount_agents_high" value: "less-than"
+                    Option name: "compare_amount_agents_low" value: "greater-than"
+                    Option name: "property_agent" value: "is-alive"
+                    Option name: "type" value: "cell"
+                optionsInt:
+                    Option name: "threshold" value: 1
+                    Option name: "threshold_amount_agents_high" value: 4
+                    Option name: "threshold_amount_agents_low" value: 1
+        postconditions:
+            Postcondition identifier: "change-property"
+                optionsString:
+                    Option name: "property_agent" value: "is-alive"
+                optionsInt:
+                    Option name: "value" value: 1
+    AgentRule name: "Rule 2" type: "cell"
+        description: "Any dead cell with three live neighbours becomes a live cell"
+        preconditions:
+            Precondition identifier: "compare-property"
+                optionsString:
+                    Option name: "property_agent" value: "is-alive"
+                optionsInt:
+                    Option name: "threshold" value: 0
+            Precondition identifier: "get-neighbors"
+                optionsString:
+                    Option name: "compare_amount_agents_high" value: "equal"
+                    Option name: "compare_amount_agents_low" value: "equal"
+                    Option name: "property_agent" value: "is-alive"
+                    Option name: "type" value: "cell"
+                optionsInt:
+                    Option name: "threshold" value: 1
+                    Option name: "threshold_amount_agents_high" value: 3
+                    Option name: "threshold_amount_agents_low" value: 3
+        postconditions:
+            Postcondition identifier: "change-property"
+                optionsString:
+                    Option name: "property_agent" value: "is-alive"
+                optionsInt:
+                    Option name: "value" value: 1
+    AgentRule name: "Rule 3" type: "cell"
+        description: "All other live cells die in the next generation."
+        preconditions:
+            Precondition identifier: "compare-property"
+                optionsString:
+                    Option name: "property_agent" value: "is-alive"
+                optionsInt:
+                    Option name: "threshold" value: 1
+            Precondition identifier: "get-neighbors"
+                optionsString:
+                    Option name: "compare_amount_agents_high" value: "higher-than"
+                    Option name: "compare_amount_agents_low" value: "less-than"
+                    Option name: "property_agent" value: "is-alive"
+                    Option name: "type" value: "cell"
+                optionsInt:
+                    Option name: "threshold" value: 1
+                    Option name: "threshold_amount_agents_high" value: 3
+                    Option name: "threshold_amount_agents_low" value: 2
+        postconditions:
+            Postcondition identifier: "change-property"
+                optionsString:
+                    Option name: "property_agent" value: "is-alive"
+                optionsInt:
+                    Option name: "value" value: 0

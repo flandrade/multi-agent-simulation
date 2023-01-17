@@ -404,18 +404,18 @@ class Agent:
 
 
 @dataclass
-class Configuration:
+class Coordinate:
     x: int
     y: int
     properties: List[Property]
 
     @staticmethod
-    def from_dict(obj: Any) -> 'Configuration':
+    def from_dict(obj: Any) -> 'Coordinate':
         assert isinstance(obj, dict)
         x = from_int(obj.get("x"))
         y = from_int(obj.get("y"))
         properties = from_list(Property.from_dict, obj.get("properties"))
-        return Configuration(x, y, properties)
+        return Coordinate(x, y, properties)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -426,43 +426,29 @@ class Configuration:
 
 
 @dataclass
-class Coordinates:
-    default_properties: List[Property]
-    configuration: List[Configuration]
-
-    @staticmethod
-    def from_dict(obj: Any) -> 'Coordinates':
-        assert isinstance(obj, dict)
-        default_properties = from_list(Property.from_dict, obj.get("defaultProperties"))
-        configuration = from_list(Configuration.from_dict, obj.get("configuration"))
-        return Coordinates(default_properties, configuration)
-
-    def to_dict(self) -> dict:
-        result: dict = {}
-        result["defaultProperties"] = from_list(lambda x: to_class(Property, x), self.default_properties)
-        result["configuration"] = from_list(lambda x: to_class(Configuration, x), self.configuration)
-        return result
-
-
-@dataclass
 class Territory:
     width: int
     height: int
-    coordinates: Coordinates
+    default_coordinate: Optional[Coordinate]
+    coordinates: Optional[List[Coordinate]]
 
     @staticmethod
     def from_dict(obj: Any) -> 'Territory':
         assert isinstance(obj, dict)
         width = from_int(obj.get("width"))
         height = from_int(obj.get("height"))
-        coordinates = Coordinates.from_dict(obj.get("coordinates"))
-        return Territory(width, height, coordinates)
+        default_coordinate = from_union([Coordinate.from_dict, from_none], obj.get("defaultCoordinate"))
+        coordinates = from_union([lambda x: from_list(Coordinate.from_dict, x), from_none], obj.get("coordinates"))
+        return Territory(width, height, default_coordinate, coordinates)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["width"] = from_int(self.width)
         result["height"] = from_int(self.height)
-        result["coordinates"] = to_class(Coordinates, self.coordinates)
+        if self.default_coordinate is not None:
+            result["defaultCoordinate"] = from_union([lambda x: to_class(Coordinate, x), from_none], self.default_coordinate)
+        if self.coordinates is not None:
+            result["coordinates"] = from_union([lambda x: from_list(lambda x: to_class(Coordinate, x), x), from_none], self.coordinates)
         return result
 
 

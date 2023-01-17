@@ -4,11 +4,7 @@
     "steps": 25,
     "territory": {
       "width": 10,
-      "height": 10,
-      "coordinates": {
-        "defaultProperties": [],
-        "configuration": []
-      }
+      "height": 10
     },
     "agents": [
       {
