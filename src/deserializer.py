@@ -248,7 +248,7 @@ class RulePoscondition:
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["identifier"] = to_enum(Action, self.action)
+        result["identifier"] = to_enum(Action, self.identifier)
         result["options"] = to_class(PurpleOptions, self.options)
         return result
 
@@ -405,7 +405,6 @@ class Agent:
 
 @dataclass
 class Coordinate:
-    name: str
     x: int
     y: int
     properties: List[Property]
@@ -413,15 +412,13 @@ class Coordinate:
     @staticmethod
     def from_dict(obj: Any) -> 'Coordinate':
         assert isinstance(obj, dict)
-        name = from_str(obj.get("name"))
         x = from_int(obj.get("x"))
         y = from_int(obj.get("y"))
         properties = from_list(Property.from_dict, obj.get("properties"))
-        return Coordinate(name, x, y, properties,)
+        return Coordinate(x, y, properties)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["name"] = from_str(str(self.name))
         result["x"] = from_int(self.x)
         result["y"] = from_int(self.y)
         result["properties"] = from_list(lambda x: to_class(Property, x), self.properties)

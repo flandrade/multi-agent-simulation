@@ -4,40 +4,40 @@ territory:
     width: 10
     height: 10
     coordinates:
-        Coordinate "0" x: 0 y: 0
+        Coordinate x: 0 y: 0
             coordinateProperties:
                 TerritoryProperty "pheromones" value: 0 isDefault: true
                 TerritoryProperty "units-of-food" value: 0 isDefault: true
-        Coordinate "2"  x: 2 y: 2
+        Coordinate x: 2 y: 2
             coordinateProperties:
                 TerritoryProperty "pheromones" value: 2 isDefault: false
                 TerritoryProperty "units-of-food" value: 0 isDefault: false
-        Coordinate "4"  x: 4 y: 4
+        Coordinate x: 4 y: 4
             coordinateProperties:
                 TerritoryProperty "pheromones" value: 1 isDefault: false
                 TerritoryProperty "units-of-food" value: 3 isDefault: false
 agents:
     Agent "1" type: "worker-ant"
         locatedAt:
-            Coordinate "0"
+            Coordinate x: 0 y: 0
         agentProperties:
             AgentProperty "load" value: 0 representLiveness: false
             AgentProperty "is-alive" value: 1 representLiveness: true
     Agent "2" type: "worker-ant"
         locatedAt:
-            Coordinate "2"
+            Coordinate x: 2 y: 3
         agentProperties:
             AgentProperty "load" value: 0 representLiveness: false
             AgentProperty "is-alive" value: 1 representLiveness: true
     Agent "3" type: "worker-ant"
         locatedAt:
-            Coordinate "2"
+            Coordinate x: 5 y: 6
         agentProperties:
             AgentProperty "load" value: 0 representLiveness: false
             AgentProperty "is-alive" value: 1 representLiveness: true
     Agent "4" type: "queen-ant"
         locatedAt:
-            Coordinate "4"
+            Coordinate x: 3 y: 3
         agentProperties:
             AgentProperty "food" value: 10 representLiveness: false
             AgentProperty "is-alive" value: 1 representLiveness: true
@@ -45,169 +45,169 @@ agentRules:
     AgentRule "Worker Ant - Rule 1" type: "worker-ant"
         description: "if in their current position there is food and their load is less than 3, they take a unit of food to add it to their load"
         preconditions:
-            Precondition "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option "property_territory" value: "units-of-food"
+                    Option propertyTerritory value: "units-of-food"
                 optionsInt:
-                    Option "threshold" value: 0
-            Precondition "compare-property"
+                    Option optionThreshold value: 0
+            Condition "compare-property"
                 optionsString:
-                    Option "property_agent" value: "load"
+                    Option propertyAgent value: "load"
                 optionsInt:
-                    Option "threshold" value: 3
-            Precondition "compare-property"
+                    Option optionThreshold value: 3
+            Condition "compare-property"
                 optionsString:
-                    Option "property_agent" value: "is-alive"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option "threshold" value: 1
+                    Option optionThreshold value: 1
         postconditions:
-            Postcondition "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option "property_agent" value: "load"
+                    Option propertyAgent value: "load"
                 optionsInt:
-                    Option "value" value: 1
+                    Option optionValue value: 1
     AgentRule "Worker Ant - Rule 2" type: "worker-ant"
         description: "if in his current position there is no food and his load is less than 3, they move to any adjacent position"
         preconditions:
-            Precondition "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option "property_territory" value: "units-of-food"
+                    Option propertyTerritory value: "units-of-food"
                 optionsInt:
-                    Option "threshold" value: 0
-            Precondition "compare-property"
+                    Option optionThreshold value: 0
+            Condition "compare-property"
                 optionsString:
-                    Option "property_agent" value: "load"
+                    Option propertyAgent value: "load"
                 optionsInt:
-                    Option "threshold" value: 3
-            Precondition "compare-property"
+                    Option optionThreshold value: 3
+            Condition "compare-property"
                 optionsString:
-                    Option "property_agent" value: "is-alive"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option "threshold" value: 1
+                    Option optionThreshold value: 1
         postconditions:
-            Postcondition "move"
+            Condition "move"
                 optionsString:
                 optionsInt:
     AgentRule "Worker Ant - Rule 3" type: "worker-ant"
         description: "if his load is equal to 3 and in his current position there is an ant-queen, they deliver the load to the queen, who increases her property food by 3 units, while the load of the ant-worker reduces to 0"
         preconditions:
-            Precondition "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option "property_agent" value: "load"
+                    Option propertyAgent value: "load"
                 optionsInt:
-                    Option "threshold" value: 3
-            Precondition "compare-property"
+                    Option optionThreshold value: 3
+            Condition "compare-property"
                 optionsString:
-                    Option "property_agent" value: "is-alive"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option "threshold" value: 1
-            Precondition "check-presence"
+                    Option optionThreshold value: 1
+            Condition "check-presence"
                 optionsString:
-                    Option "type" value: "queen-ant"
+                    Option optionType value: "queen-ant"
                 optionsInt:
-                    Option "value" value: 1
+                    Option optionValue value: 1
         postconditions:
-            Postcondition "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option "property_agent" value: "load"
+                    Option propertyAgent value: "load"
                 optionsInt:
-                    Option "value" value: 0
-            Postcondition "change-property"
+                    Option optionValue value: 0
+            Condition "change-property"
                 optionsString:
-                    Option "affected" value: "queen-ant"
-                    Option "agent_type" value: "queen-ant"
-                    Option "property_agent" value: "food"
+                    Option affected value: "queen-ant"
+                    Option agentType value: "queen-ant"
+                    Option propertyAgent value: "food"
                 optionsInt:
-                    Option "value" value: 3
+                    Option optionValue value: 3
     AgentRule "Worker Ant - Rule 4" type: "worker-ant"
         description: "if their charge is equal to 3 and there is no ant-queen, move to the adjacent position that has more pheromones, and increase that pheromone amount by 1"
         preconditions:
-            Precondition "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option "property_agent" value: "load"
+                    Option propertyAgent value: "load"
                 optionsInt:
-                    Option "threshold" value: 3
-            Precondition "compare-property"
+                    Option optionThreshold value: 3
+            Condition "compare-property"
                 optionsString:
-                    Option "property_agent" value: "is-alive"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option "threshold" value: 1
-            Precondition "check-presence"
+                    Option optionThreshold value: 1
+            Condition "check-presence"
                 optionsString:
-                    Option "type" value: "queen-ant"
+                    Option optionType value: "queen-ant"
                 optionsInt:
-                    Option "value" value: 0
+                    Option optionValue value: 0
         postconditions:
-            Postcondition "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option "property_territory" value: "pheromones"
+                    Option propertyTerritory value: "pheromones"
                 optionsInt:
-                    Option "value" value: 1
-            Postcondition "move"
+                    Option optionValue value: 1
+            Condition "move"
                 optionsString:
-                    Option "property_territory" value: "pheromones"
+                    Option propertyTerritory value: "pheromones"
                 optionsInt:
     AgentRule "Queen Ant - Rule 1" type: "queen-ant"
         description: "if they have between 1 and 50 units of food, subtract 1 unit, and introduce a new worker-ant into the system"
         preconditions:
-            Precondition "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option "property_agent" value: "food"
+                    Option propertyAgent value: "food"
                 optionsInt:
-                    Option "threshold" value: 0
-            Precondition "compare-property"
+                    Option optionThreshold value: 0
+            Condition "compare-property"
                 optionsString:
-                    Option "property_agent" value: "is-alive"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option "threshold" value: 1
-            Precondition "compare-property"
+                    Option optionThreshold value: 1
+            Condition "compare-property"
                 optionsString:
-                    Option "property_agent" value: "food"
+                    Option propertyAgent value: "food"
                 optionsInt:
-                    Option "threshold" value: 51
+                    Option optionThreshold value: 51
         postconditions:
-            Postcondition "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option "property_agent" value: "food"
+                    Option propertyAgent value: "food"
                 optionsInt:
-                    Option "value" value: 1
-            Postcondition "introduce-agents"
+                    Option optionValue value: 1
+            Condition "introduce-agents"
                 optionsString:
-                    Option "affected" value: "worker-ant"
-                    Option "agent_type" value: "worker-ant"
+                    Option affected value: "worker-ant"
+                    Option agentType value: "worker-ant"
                 optionsInt:
-                    Option "amount" value: 1
+                    Option amount value: 1
     AgentRule "Queen Ant - Rule 2" type: "queen-ant"
         description: "if they have less than 0 food units, they die and disappear from the system"
         preconditions:
-            Precondition "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option "property_agent" value: "food"
+                    Option propertyAgent value: "food"
                 optionsInt:
-                    Option "threshold" value: 1
-            Precondition "compare-property"
+                    Option optionThreshold value: 1
+            Condition "compare-property"
                 optionsString:
-                    Option "property_agent" value: "is-alive"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option "threshold" value: 1
+                    Option optionThreshold value: 1
         postconditions:
-            Postcondition "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option "property_agent" value: "is-alive"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option "value" value: 0
+                    Option optionValue value: 0
 territoryRules:
     TerritoryRule "Rule 1 - Pheromones"
         description: "Decreasing the pheromones of each coordinate of the territory if its value is greater than 0"
         preconditions:
-            Precondition "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option "property_territory" value: "pheromones"
+                    Option propertyTerritory value: "pheromones"
                 optionsInt:
-                    Option "threshold" value: 0
+                    Option optionThreshold value: 0
         postconditions:
-            Postcondition "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option "property_territory" value: "pheromones"
+                    Option propertyTerritory value: "pheromones"
                 optionsInt:
-                    Option "value" value: 1
+                    Option optionValue value: 1

@@ -1,6 +1,6 @@
 """
-Transform JSON file to .mas
-
+Transform JSON file to .mas, this helps to manually "golden test" our JSON files
+It's ugly, I know, we shouldn't include in the project assets
 """
 
 import json
@@ -8,6 +8,34 @@ from deserializer import simulation_from_dict
 
 def ident(number):
     return " "*number*4
+
+string_options = {
+    'property_agent': 'propertyAgent',
+    'property_territory': 'propertyTerritory',
+    'compare': 'compare',
+    'agent_type': 'agentType',
+    'value_type': 'valueType',
+    'direction': 'direction',
+    'affected': 'affected',
+    'type': 'optionType'
+}
+
+int_options = {
+    'threshold': 'optionThreshold',
+    'value': 'optionValue',
+    'probability_of_changing': 'probabilityOfChanging',
+    'probability_of_Adding': 'probabilityOfAdding',
+    'turn_degrees': 'turnDegress',
+    'amount': 'amount'
+}
+
+def get_condition(name):
+    if name in int_options:
+        return int_options.get(name)
+    elif name in string_options:
+        return string_options.get(name)
+    else:
+        return f'"{name}"'
 
 def main():
     # open the JSON file and read the contents
@@ -24,13 +52,13 @@ def main():
     print(f'{ident(1)}coordinates:')
     if config.simulation.territory.default_coordinate is not None:
         coord = config.simulation.territory.default_coordinate
-        print(f'{ident(2)}Coordinate "{coord.name}" x: {coord.x} y: {coord.y}')
+        print(f'{ident(2)}Coordinate x: {coord.x} y: {coord.y}')
         print(f'{ident(3)}coordinateProperties:')
         for prop in coord.properties:
                 print(f'{ident(4)}TerritoryProperty "{prop.name}" value: {prop.value} isDefault: true')
     if config.simulation.territory.coordinates is not None:
         for coord in config.simulation.territory.coordinates:
-            print(f'{ident(2)}Coordinate "{coord.name}"  x: {coord.x} y: {coord.y}')
+            print(f'{ident(2)}Coordinate x: {coord.x} y: {coord.y}')
             print(f'{ident(3)}coordinateProperties:')
             for prop in coord.properties:
                 print(f'{ident(4)}TerritoryProperty "{prop.name}" value: {prop.value} isDefault: false')
@@ -39,7 +67,7 @@ def main():
     for agent in config.simulation.agents:
         print(f'{ident(1)}Agent "{agent.name}" type: "{agent.type}"')
         print(f'{ident(2)}locatedAt:')
-        print(f'{ident(3)}Coordinate "0"')
+        print(f'{ident(3)}Coordinate x: {agent.located_at.x} y: {agent.located_at.y}')
         print(f'{ident(2)}agentProperties:')
         for prop in agent.properties:
             # define property that show liveness (that means: if agent is live or present in the grid)
@@ -53,37 +81,37 @@ def main():
         print(f'{ident(2)}description: "{rule.description}"')
         print(f'{ident(2)}preconditions:')
         for precondition in rule.preconditions:
-            print(f'{ident(3)}Precondition "{precondition.identifier.value}"')
+            print(f'{ident(3)}Condition "{precondition.identifier.value}"')
             print(f'{ident(4)}optionsString:')
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
                 if(isinstance(getattr(precondition.options, key), str)):
-                    print(f'{ident(5)}Option "{key}" value: "{attribute_value}"')
+                    print(f'{ident(5)}Option {get_condition(key)} value: "{attribute_value}"')
 
             print(f'{ident(4)}optionsInt:')
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
                 if(isinstance(getattr(precondition.options, key), int)):
-                    print(f'{ident(5)}Option "{key}" value: {attribute_value}')
+                    print(f'{ident(5)}Option {get_condition(key)} value: {attribute_value}')
 
         print(f'{ident(2)}postconditions:')
         for precondition in rule.postconditions:
-            print(f'{ident(3)}Postcondition "{precondition.identifier.value}"')
+            print(f'{ident(3)}Condition "{precondition.identifier.value}"')
             print(f'{ident(4)}optionsString:')
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
                 if(isinstance(getattr(precondition.options, key), str)):
-                    print(f'{ident(5)}Option "{key}" value: "{attribute_value}"')
+                    print(f'{ident(5)}Option {get_condition(key)} value: "{attribute_value}"')
 
             print(f'{ident(4)}optionsInt:')
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
                 if(isinstance(getattr(precondition.options, key), int)):
-                    print(f'{ident(5)}Option "{key}" value: {attribute_value}')
+                    print(f'{ident(5)}Option {get_condition(key)} value: {attribute_value}')
 
 
     print(f'{ident(0)}territoryRules:')
@@ -92,37 +120,37 @@ def main():
         print(f'{ident(2)}description: "{rule.description}"')
         print(f'{ident(2)}preconditions:')
         for precondition in rule.preconditions:
-            print(f'{ident(3)}Precondition "{precondition.identifier.value}"')
+            print(f'{ident(3)}Condition "{precondition.identifier.value}"')
             print(f'{ident(4)}optionsString:')
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
                 if(isinstance(getattr(precondition.options, key), str)):
-                    print(f'{ident(5)}Option "{key}" value: "{attribute_value}"')
+                    print(f'{ident(5)}Option {get_condition(key)} value: "{attribute_value}"')
 
             print(f'{ident(4)}optionsInt:')
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
                 if(isinstance(getattr(precondition.options, key), int)):
-                    print(f'{ident(5)}Option "{key}" value: {attribute_value}')
+                    print(f'{ident(5)}Option {get_condition(key)} value: {attribute_value}')
 
         print(f'{ident(2)}postconditions:')
         for precondition in rule.postconditions:
-            print(f'{ident(3)}Postcondition "{precondition.identifier.value}"')
+            print(f'{ident(3)}Condition "{precondition.identifier.value}"')
             print(f'{ident(4)}optionsString:')
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
                 if(isinstance(getattr(precondition.options, key), str)):
-                    print(f'{ident(5)}Option "{key}" value: "{attribute_value}"')
+                    print(f'{ident(5)}Option {get_condition(key)} value: "{attribute_value}"')
 
             print(f'{ident(4)}optionsInt:')
             options = filter(lambda a: not a.startswith('__'), dir(precondition.options))
             for key in options:
                 attribute_value = getattr(precondition.options, key)
                 if(isinstance(getattr(precondition.options, key), int)):
-                    print(f'{ident(5)}Option "{key}" value: {attribute_value}')
+                    print(f'{ident(5)}Option {get_condition(key)} value: {attribute_value}')
 
 if __name__ == '__main__':
     main()
