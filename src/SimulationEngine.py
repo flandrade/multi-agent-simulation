@@ -10,7 +10,7 @@ import numpy as np
 import random
 from plot import plot_simulation
 import uuid
-from deserializer import simulation_from_dict, Condition, Compare, Action, UpdateType, DirectionType
+from deserializer import simulation_from_dict, Condition, Compare, Action, UpdateType, DirectionType, PurpleOptions
 from utils import normalize, decision
 
 class Agent:
@@ -62,6 +62,34 @@ class Agent:
                             new_x = normalize(copy.deepcopy(self.location[0]) + random.randint(-1, 1), 0, territory.size[1] - 1)
                             new_y = normalize(copy.deepcopy(self.location[1]) + random.randint(-1, 1), 0, territory.size[1] - 1)
                             self.location = (new_x, new_y)
+
+                        elif options.direction == DirectionType.PROPERTY :
+                            if options.property_territory == "pheromones" :
+                                row = self.location[0]
+                                col = self.location[1]
+                                maximum = (row, col)
+
+                                for prop in territory.coordinates[maximum]:
+                                    if prop == "pheromones":
+                                        pheromones_max = territory.coordinates[maximum][prop]
+
+                                for pos in ( (row - 1, col), (row + 1, col), (row, col - 1),
+                                           (row, col + 1), (row - 1, col - 1), (row - 1, col + 1),
+                                           (row + 1, col - 1), (row + 1, col + 1)):
+
+                                    pheromones = 0
+                                    for coord in territory.coordinates:
+                                        if (coord[0] == pos[0] and coord[1] == pos[1]):
+                                            for prop1 in territory.coordinates[coord]:
+                                                if prop1 == "pheromones":
+                                                    pheromones = territory.coordinates[coord][prop1]
+
+                                    if pheromones > pheromones_max:
+                                        pheromones_max = pheromones
+                                        maximum = (pos[0],pos[1])
+
+                                self.location = (maximum[0], maximum[1])
+
                     if postcondition.identifier == Action.CHANGE_PROPERTY:
                         if options.property_agent is not None:
                             prev = self.properties[options.property_agent]
@@ -91,8 +119,6 @@ class Agent:
                             # change a property of the territory
                             if options.update_type == UpdateType.INCREASE:
                                 coordinate[options.property_territory] += options.value
-
-                    # Add https://stackoverflow.com/questions/26830697/moore-neighbourhood-in-python for "property" move
 
                     # should be here to avoid overlapping
                     # since creating an agent is independent of this agent, we return a data structure with the new agent
@@ -184,6 +210,7 @@ def main():
 
     for step in data:
         print(f'step {step[0]}')
+        print(f'{step[1].coordinates}')
         for ag in step[2]:
             print(f'{ag.location} {ag.type} {ag.properties}')
 
