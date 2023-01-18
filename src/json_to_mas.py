@@ -95,7 +95,7 @@ def main():
             for key in options:
                 attribute_value = getattr(precondition.options, key)
                 if key in int_options and attribute_value is not None:
-                    print(f'{ident(5)}Option {get_condition(key)} value: {attribute_value}')
+                    print(f'{ident(5)}Option {get_condition(key)} value: {int(attribute_value)}')
 
         print(f'{ident(2)}postconditions:')
         for precondition in rule.postconditions:
@@ -112,7 +112,7 @@ def main():
             for key in options:
                 attribute_value = getattr(precondition.options, key)
                 if key in int_options and attribute_value is not None:
-                    print(f'{ident(5)}Option {get_condition(key)} value: {attribute_value}')
+                    print(f'{ident(5)}Option {get_condition(key)} value: {int(attribute_value)}')
 
 
     print(f'{ident(0)}territoryRules:')
@@ -134,7 +134,7 @@ def main():
             for key in options:
                 attribute_value = getattr(precondition.options, key)
                 if key in int_options and attribute_value is not None:
-                    print(f'{ident(5)}Option {get_condition(key)} value: {attribute_value}')
+                    print(f'{ident(5)}Option {get_condition(key)} value: {int(attribute_value)}')
 
         print(f'{ident(2)}postconditions:')
         for precondition in rule.postconditions:
@@ -149,7 +149,7 @@ def main():
             for key in options:
                 attribute_value = getattr(precondition.options, key)
                 if key in int_options and attribute_value is not None:
-                    print(f'{ident(5)}Option {get_condition(key)} value: {attribute_value}')
+                    print(f'{ident(5)}Option {get_condition(key)} value: {int(attribute_value)}')
 
 if __name__ == '__main__':
     main()
