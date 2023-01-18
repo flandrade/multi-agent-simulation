@@ -37,7 +37,10 @@ class Agent:
                 options = precondition.options
                 if precondition.identifier == Condition.CHECK_PRESENCE:
                     presence = [ag for ag in agents_in_same_location if ag.type == options.type]
-                    preconditions_satisfied.append(len(presence) > 0)
+                    if options.value == 0:
+                        preconditions_satisfied.append(len(presence) == options.value)
+                    else:
+                        preconditions_satisfied.append(len(presence) >= options.value)
                 if precondition.identifier == Condition.COMPARE_PROPERTY:
                     if options.property_agent is not None:
                         # compare a property of the agent
@@ -55,48 +58,47 @@ class Agent:
 
             # if all the preconditions are satisfied, apply the postconditions
             if all(preconditions_satisfied) and len(preconditions_satisfied) > 0:
+                print(f'Agent Rule - [{self.name[0:2]}|{self.type}] at {self.location}. Execute rule: {rule.name}')
                 for postcondition in rule.postconditions:
                     options = postcondition.options
                     if postcondition.identifier == Action.MOVE:
+
                         if options.direction == DirectionType.RANDOM:
                             new_x = normalize(copy.deepcopy(self.location[0]) + random.randint(-1, 1), 0, territory.size[1] - 1)
                             new_y = normalize(copy.deepcopy(self.location[1]) + random.randint(-1, 1), 0, territory.size[1] - 1)
                             self.location = (new_x, new_y)
 
-                        elif options.direction == DirectionType.PROPERTY :
-                            if options.property_territory == "pheromones" :
-                                row = self.location[0]
-                                col = self.location[1]
-                                maximum = (row, col)
+                        elif options.direction == DirectionType.PROPERTY:
+                            row = self.location[0]
+                            col = self.location[1]
+                            maximum = (row, col)
 
-                                for prop in territory.coordinates[maximum]:
-                                    if prop == "pheromones":
-                                        pheromones_max = territory.coordinates[maximum][prop]
+                            pheromones_max = territory.coordinates[maximum][options.property_territory]
 
-                                for pos in ( (row - 1, col), (row + 1, col), (row, col - 1),
-                                           (row, col + 1), (row - 1, col - 1), (row - 1, col + 1),
-                                           (row + 1, col - 1), (row + 1, col + 1)):
+                            for pos in ( (row - 1, col), (row + 1, col), (row, col - 1),
+                                       (row, col + 1), (row - 1, col - 1), (row - 1, col + 1),
+                                       (row + 1, col - 1), (row + 1, col + 1)):
 
-                                    pheromones = 0
-                                    for coord in territory.coordinates:
-                                        if (coord[0] == pos[0] and coord[1] == pos[1]):
-                                            for prop1 in territory.coordinates[coord]:
-                                                if prop1 == "pheromones":
-                                                    pheromones = territory.coordinates[coord][prop1]
+                                pheromones = 0
+                                for coord in territory.coordinates:
+                                    if (coord[0] == pos[0] and coord[1] == pos[1]):
+                                        for prop1 in territory.coordinates[coord]:
+                                            if prop1 == options.property_territory:
+                                                pheromones = territory.coordinates[coord][options.property_territory]
 
-                                    if pheromones > pheromones_max:
-                                        pheromones_max = pheromones
-                                        maximum = (pos[0],pos[1])
+                                if pheromones > pheromones_max:
+                                    pheromones_max = pheromones
+                                    maximum = (pos[0],pos[1])
 
-                                self.location = (maximum[0], maximum[1])
+                            self.location = (maximum[0], maximum[1])
 
                     if postcondition.identifier == Action.CHANGE_PROPERTY:
                         if options.property_agent is not None:
-                            prev = self.properties[options.property_agent]
                             # change a property of the agent
                             if options.update_type == UpdateType.INCREASE:
                                 # is it's same agent
                                 if options.affected is None:
+                                    prev = self.properties[options.property_agent]
                                     self.properties[options.property_agent] = prev + options.value
                                 # if it's different agent
                                 elif options.affected is not None and len(agents_in_same_location) > 0:
@@ -104,6 +106,7 @@ class Agent:
                             elif options.update_type == UpdateType.DECREASE:
                                 # is it's same agent
                                 if options.affected is None:
+                                    prev = self.properties[options.property_agent]
                                     self.properties[options.property_agent] = prev - options.value
                                 # if it's different agent
                                 elif options.affected is not None and len(agents_in_same_location) > 0:
@@ -111,6 +114,7 @@ class Agent:
                             elif options.update_type == UpdateType.UPDATE:
                                 # is it's same agent
                                 if options.affected is None:
+                                    prev = self.properties[options.property_agent]
                                     self.properties[options.property_agent] = options.value
                                 # if it's different agent
                                 elif options.affected is not None and len(agents_in_same_location) > 0:
@@ -139,73 +143,77 @@ class Territory:
             coord_properties = {}
             for prop in territory.default_coordinate.properties:
                 coord_properties[prop.name] = prop.value
+
             for i in range (0, self.size[0]):
                 for j in range (0, self.size[1]):
-                    territory_properties[(i, j)] = coord_properties
+                    territory_properties[(i, j)] = copy.deepcopy(coord_properties)
 
         if territory.coordinates is not None:
             for coord_data in territory.coordinates:
                 coord_properties = {}
                 for prop in coord_data.properties:
                     coord_properties[prop.name] = prop.value
-                territory_properties[(coord_data.x, coord_data.y)] = coord_properties
-            self.coordinates = territory_properties
+                territory_properties[(coord_data.x, coord_data.y)] = copy.deepcopy(coord_properties)
+
+        self.coordinates = territory_properties
 
 
-    def apply_evolution_rules(self,rules):
+    def apply_evolution_rules(self, rules):
         # implement the logic for applying the evolution rules for the territory
         # apply each behavior rule in turn
         for rule in rules:
-            # check if the preconditions are satisfied
-            preconditions_satisfied = []
-            for precondition in rule.preconditions:
-                options = precondition.options
-                if precondition.identifier == Condition.COMPARE_PROPERTY:
-                    for coord in self.coordinates:
-                        value = self.coordinates[coord]["pheromones"]
+            for coord in self.coordinates:
+                preconditions_satisfied = []
+                for precondition in rule.preconditions:
+                    options = precondition.options
+                    if precondition.identifier == Condition.COMPARE_PROPERTY:
+                        value = self.coordinates[coord][options.property_territory]
                         if options.compare == Compare.GREATER_THAN:
-                             preconditions_satisfied.append(value > options.threshold)
+                            preconditions_satisfied.append(value > options.threshold)
 
-            if all(preconditions_satisfied) and len(preconditions_satisfied) > 0:
-                   for postcondition in rule.postconditions:
-                       options = postcondition.options
-                       if postcondition.identifier == Action.CHANGE_PROPERTY:
-                           if options.property_territory == "pheromones":
-                               if options.update_type == UpdateType.DECREASE:
-                                   for coord in self.coordinates:
-                                        self.coordinates[coord]["pheromones"] -=1
-
+                        if all(preconditions_satisfied) and len(preconditions_satisfied) > options.threshold:
+                            # print(f'Territory Rule - [{coord}]. Execute rule: {rule.name}')
+                            for postcondition in rule.postconditions:
+                                options = postcondition.options
+                                if postcondition.identifier == Action.CHANGE_PROPERTY:
+                                    prev = self.coordinates[coord][options.property_territory]
+                                    self.coordinates[coord][options.property_territory] = prev - options.value
 
 
-def simulate(agents, territory, steps, rules):
+
+def simulate(agents, territory, steps, agent_rules, territory_rules):
     new_data = []
-    new_data.append((0, territory, copy.deepcopy(agents)))
+    new_data.append((0, copy.deepcopy(territory), copy.deepcopy(agents)))
+
+    print (f'-------------- RULES LOG --------------')
     for i in range(1, steps):
+        print (f'STEP {i}-------')
         # iterate through agents to apply rules
         for agent in agents:
             # get agents in same location different from the agent
             agents_in_same_location = [ag for ag in agents if ag.location == agent.location and ag.name != agent.name]
-            result = agent.apply_behavior_rules(rules, territory, agents_in_same_location)
+            result = agent.apply_behavior_rules(agent_rules, territory, agents_in_same_location)
             # if rule returns value, new agent should be created.
             # NOTE: name should be unique
             if result is not None:
                 new_agent = Agent(str(uuid.uuid4()), result.agent_type, agent.location, get_agent_properties(result.properties))
                 agents.append(new_agent)
             # apply the evolution rules for the territory
-        territory.apply_evolution_rules(rules)
+        territory.apply_evolution_rules(territory_rules)
         this_agents = copy.deepcopy(agents)
         this_territory = copy.deepcopy(territory)
-        #print("----")
-        #print(territory.coordinates)
+
         # collect data for the plot
         new_data.append((i, this_territory, this_agents))
     return new_data
+
 
 def get_agent_properties(properties):
     agent_properties = {}
     for prop in properties:
         agent_properties[prop.name] = prop.value
     return agent_properties
+
 
 def main():
     # open the JSON file and read the contents
@@ -222,16 +230,16 @@ def main():
 
     # create the territory with the extracted data
     territory = Territory(config.simulation.territory)
-
     # run the simulation and collect the data
-    data = simulate(agents, territory, config.simulation.steps, config.simulation.agent_rules)
+    data = simulate(agents, territory, config.simulation.steps, config.simulation.agent_rules, config.simulation.territory_rules)
 
     # define property that show liveness (that means: if agent is live or present in the grid)
     temp_liveness_property = [pr for pr in config.simulation.agent_properties if pr.represent_liveness]
     liveness_property = temp_liveness_property[0].name if len(temp_liveness_property) > 0 else None
 
+    print (f'-------------- AGENT/TERRITORY STATE LOG --------------')
     for step in data:
-        print(f'step {step[0]}')
+        print (f'STEP {step[0]}-------')
         print(f'{step[1].coordinates}')
         for ag in step[2]:
             print(f'{ag.location} {ag.type} {ag.properties}')

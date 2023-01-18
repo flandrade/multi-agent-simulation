@@ -1,18 +1,17 @@
 {
   "simulation": {
     "name": "Ant Colony",
-    "steps": 5,
+    "steps": 6,
     "territory": {
       "width": 10,
       "height": 10,
       "defaultCoordinate": {
-        "name": "0",
         "x": 0,
         "y": 0,
         "properties": [
           {
             "name": "pheromones",
-            "value": 0
+            "value": 1
           },
           {
             "name": "units-of-food",
@@ -22,13 +21,12 @@
       },
       "coordinates": [
         {
-          "name": "2",
           "x": 2,
           "y": 2,
           "properties": [
             {
               "name": "pheromones",
-              "value": 2
+              "value": 20
             },
             {
               "name": "units-of-food",
@@ -37,13 +35,26 @@
           ]
         },
         {
-          "name": "4",
-          "x": 4,
-          "y": 4,
+          "x": 2,
+          "y": 3,
           "properties": [
             {
               "name": "pheromones",
-              "value": 1
+              "value": 0
+            },
+            {
+              "name": "units-of-food",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "x": 8,
+          "y": 7,
+          "properties": [
+            {
+              "name": "pheromones",
+              "value": 50
             },
             {
               "name": "units-of-food",
@@ -58,8 +69,8 @@
         "name": "1",
         "type": "worker-ant",
         "locatedAt": {
-          "x": 0,
-          "y": 0
+          "x": 2,
+          "y": 3
         },
         "properties": [
           {
@@ -76,8 +87,8 @@
         "name": "2",
         "type": "worker-ant",
         "locatedAt": {
-          "x": 2,
-          "y": 3
+          "x": 0,
+          "y": 0
         },
         "properties": [
           {
@@ -100,7 +111,7 @@
         "properties": [
           {
             "name": "load",
-            "value": 0
+            "value": 3
           },
           {
             "name": "is-alive",
@@ -110,6 +121,42 @@
       },
       {
         "name": "4",
+        "type": "worker-ant",
+        "locatedAt": {
+          "x": 8,
+          "y": 8
+        },
+        "properties": [
+          {
+            "name": "load",
+            "value": 3
+          },
+          {
+            "name": "is-alive",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "5",
+        "type": "queen-ant",
+        "locatedAt": {
+          "x": 5,
+          "y": 6
+        },
+        "properties": [
+          {
+            "name": "food",
+            "value": 3
+          },
+          {
+            "name": "is-alive",
+            "value": 1
+          }
+        ]
+      },
+      {
+        "name": "6",
         "type": "queen-ant",
         "locatedAt": {
           "x": 3,
@@ -118,7 +165,7 @@
         "properties": [
           {
             "name": "food",
-            "value": 10
+            "value": 0
           },
           {
             "name": "is-alive",
@@ -291,7 +338,7 @@
           {
             "identifier": "change-property",
             "options": {
-              "agentType": "queen-ant",
+              "affected": "queen-ant",
               "probabilityOfChanging": 1,
               "propertyAgent": "food",
               "propertyTerritory": null,
