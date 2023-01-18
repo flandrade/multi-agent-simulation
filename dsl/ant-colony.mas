@@ -1,31 +1,35 @@
 name: "Ant Colony"
-steps: 5
+steps: 6
 territory:
     width: 10
     height: 10
     coordinates:
         Coordinate x: 0 y: 0
             coordinateProperties:
-                TerritoryProperty "pheromones" value: 0 isDefault: true
+                TerritoryProperty "pheromones" value: 1 isDefault: true
                 TerritoryProperty "units-of-food" value: 0 isDefault: true
         Coordinate x: 2 y: 2
             coordinateProperties:
-                TerritoryProperty "pheromones" value: 2 isDefault: false
+                TerritoryProperty "pheromones" value: 20 isDefault: false
                 TerritoryProperty "units-of-food" value: 0 isDefault: false
-        Coordinate x: 4 y: 4
+        Coordinate x: 2 y: 3
             coordinateProperties:
-                TerritoryProperty "pheromones" value: 1 isDefault: false
+                TerritoryProperty "pheromones" value: 0 isDefault: false
+                TerritoryProperty "units-of-food" value: 3 isDefault: false
+        Coordinate x: 8 y: 7
+            coordinateProperties:
+                TerritoryProperty "pheromones" value: 50 isDefault: false
                 TerritoryProperty "units-of-food" value: 3 isDefault: false
 agents:
     Agent "1" type: "worker-ant"
         locatedAt:
-            Coordinate x: 0 y: 0
+            Coordinate x: 2 y: 3
         agentProperties:
             AgentProperty "load" value: 0 representLiveness: false
             AgentProperty "is-alive" value: 1 representLiveness: true
     Agent "2" type: "worker-ant"
         locatedAt:
-            Coordinate x: 2 y: 3
+            Coordinate x: 0 y: 0
         agentProperties:
             AgentProperty "load" value: 0 representLiveness: false
             AgentProperty "is-alive" value: 1 representLiveness: true
@@ -33,13 +37,25 @@ agents:
         locatedAt:
             Coordinate x: 5 y: 6
         agentProperties:
-            AgentProperty "load" value: 0 representLiveness: false
+            AgentProperty "load" value: 3 representLiveness: false
             AgentProperty "is-alive" value: 1 representLiveness: true
-    Agent "4" type: "queen-ant"
+    Agent "4" type: "worker-ant"
+        locatedAt:
+            Coordinate x: 8 y: 8
+        agentProperties:
+            AgentProperty "load" value: 3 representLiveness: false
+            AgentProperty "is-alive" value: 1 representLiveness: true
+    Agent "5" type: "queen-ant"
+        locatedAt:
+            Coordinate x: 5 y: 6
+        agentProperties:
+            AgentProperty "food" value: 3 representLiveness: false
+            AgentProperty "is-alive" value: 1 representLiveness: true
+    Agent "6" type: "queen-ant"
         locatedAt:
             Coordinate x: 3 y: 3
         agentProperties:
-            AgentProperty "food" value: 10 representLiveness: false
+            AgentProperty "food" value: 0 representLiveness: false
             AgentProperty "is-alive" value: 1 representLiveness: true
 agentRules:
     AgentRule "Worker Ant - Rule 1" type: "worker-ant"
@@ -48,25 +64,25 @@ agentRules:
             Condition "compare-property"
                 optionsString:
                     Option compare value: "greater-than"
-                    Option propertyTerritory value: "greater-than"
+                    Option propertyTerritory value: "units-of-food"
                 optionsInt:
                     Option optionThreshold value: 0
             Condition "compare-property"
                 optionsString:
                     Option compare value: "less-than"
-                    Option propertyAgent value: "less-than"
+                    Option propertyAgent value: "load"
                 optionsInt:
                     Option optionThreshold value: 3
             Condition "compare-property"
                 optionsString:
                     Option compare value: "equal"
-                    Option propertyAgent value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
                     Option optionThreshold value: 1
         postconditions:
             Condition "change-property"
                 optionsString:
-                    Option propertyAgent value: "equal"
+                    Option propertyAgent value: "load"
                 optionsInt:
                     Option probabilityOfChanging value: 1.0
                     Option optionValue value: 1
@@ -76,19 +92,19 @@ agentRules:
             Condition "compare-property"
                 optionsString:
                     Option compare value: "equal"
-                    Option propertyTerritory value: "equal"
+                    Option propertyTerritory value: "units-of-food"
                 optionsInt:
                     Option optionThreshold value: 0
             Condition "compare-property"
                 optionsString:
                     Option compare value: "less-than"
-                    Option propertyAgent value: "less-than"
+                    Option propertyAgent value: "load"
                 optionsInt:
                     Option optionThreshold value: 3
             Condition "compare-property"
                 optionsString:
                     Option compare value: "equal"
-                    Option propertyAgent value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
                     Option optionThreshold value: 1
         postconditions:
@@ -102,32 +118,31 @@ agentRules:
             Condition "compare-property"
                 optionsString:
                     Option compare value: "equal"
-                    Option propertyAgent value: "equal"
+                    Option propertyAgent value: "load"
                 optionsInt:
                     Option optionThreshold value: 3
             Condition "compare-property"
                 optionsString:
                     Option compare value: "equal"
-                    Option propertyAgent value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
                     Option optionThreshold value: 1
             Condition "check-presence"
                 optionsString:
-                    Option optionType value: "equal"
+                    Option optionType value: "queen-ant"
                 optionsInt:
                     Option optionValue value: 1
         postconditions:
             Condition "change-property"
                 optionsString:
-                    Option propertyAgent value: "equal"
+                    Option propertyAgent value: "load"
                 optionsInt:
                     Option probabilityOfChanging value: 1.0
                     Option optionValue value: 0
             Condition "change-property"
                 optionsString:
-                    Option affected value: "equal"
-                    Option agentType value: "equal"
-                    Option propertyAgent value: "equal"
+                    Option affected value: "queen-ant"
+                    Option propertyAgent value: "food"
                 optionsInt:
                     Option probabilityOfChanging value: 1.0
                     Option optionValue value: 3
@@ -137,24 +152,24 @@ agentRules:
             Condition "compare-property"
                 optionsString:
                     Option compare value: "equal"
-                    Option propertyAgent value: "equal"
+                    Option propertyAgent value: "load"
                 optionsInt:
                     Option optionThreshold value: 3
             Condition "compare-property"
                 optionsString:
                     Option compare value: "equal"
-                    Option propertyAgent value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
                     Option optionThreshold value: 1
             Condition "check-presence"
                 optionsString:
-                    Option optionType value: "equal"
+                    Option optionType value: "queen-ant"
                 optionsInt:
                     Option optionValue value: 0
         postconditions:
             Condition "change-property"
                 optionsString:
-                    Option propertyTerritory value: "equal"
+                    Option propertyTerritory value: "pheromones"
                 optionsInt:
                     Option probabilityOfChanging value: 1.0
                     Option optionValue value: 1
@@ -162,7 +177,7 @@ agentRules:
                 optionsString:
                     Option compare value: "highest"
                     Option direction value: "property"
-                    Option propertyTerritory value: "property"
+                    Option propertyTerritory value: "pheromones"
                 optionsInt:
     AgentRule "Queen Ant - Rule 1" type: "queen-ant"
         description: "if they have between 1 and 50 units of food, subtract 1 unit, and introduce a new worker-ant into the system"
@@ -170,32 +185,31 @@ agentRules:
             Condition "compare-property"
                 optionsString:
                     Option compare value: "greater-than"
-                    Option propertyAgent value: "greater-than"
+                    Option propertyAgent value: "food"
                 optionsInt:
                     Option optionThreshold value: 0
             Condition "compare-property"
                 optionsString:
                     Option compare value: "equal"
-                    Option propertyAgent value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
                     Option optionThreshold value: 1
             Condition "compare-property"
                 optionsString:
                     Option compare value: "less-than"
-                    Option propertyAgent value: "less-than"
+                    Option propertyAgent value: "food"
                 optionsInt:
                     Option optionThreshold value: 51
         postconditions:
             Condition "change-property"
                 optionsString:
-                    Option propertyAgent value: "less-than"
+                    Option propertyAgent value: "food"
                 optionsInt:
                     Option probabilityOfChanging value: 1.0
                     Option optionValue value: 1
             Condition "introduce-agents"
                 optionsString:
-                    Option affected value: "less-than"
-                    Option agentType value: "less-than"
+                    Option agentType value: "worker-ant"
                 optionsInt:
                     Option amount value: 1
     AgentRule "Queen Ant - Rule 2" type: "queen-ant"
@@ -204,19 +218,19 @@ agentRules:
             Condition "compare-property"
                 optionsString:
                     Option compare value: "less-than"
-                    Option propertyAgent value: "less-than"
+                    Option propertyAgent value: "food"
                 optionsInt:
                     Option optionThreshold value: 1
             Condition "compare-property"
                 optionsString:
                     Option compare value: "equal"
-                    Option propertyAgent value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
                     Option optionThreshold value: 1
         postconditions:
             Condition "change-property"
                 optionsString:
-                    Option propertyAgent value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
                     Option probabilityOfChanging value: 1.0
                     Option optionValue value: 0
@@ -227,7 +241,7 @@ territoryRules:
             Condition "compare-property"
                 optionsString:
                     Option compare value: "greater-than"
-                    Option propertyTerritory value: "greater-than"
+                    Option propertyTerritory value: "pheromones"
                 optionsInt:
                     Option optionThreshold value: 0
         postconditions:
