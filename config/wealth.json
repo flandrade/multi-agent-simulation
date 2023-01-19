@@ -17,23 +17,12 @@
         "properties": [
           {
             "name": "money",
-            "value": 1
+            "value": 1,
+            "representLiveness": false
           }
         ]
       }
     ],
-    "AgentType": [
-      {
-        "name": "person"
-      }
-    ],
-    "AgentProperties": [
-      {
-        "name": "money",
-        "representLiveness": false
-      }
-    ],
-    "CoordinateProperties": [],
     "AgentRules": [
       {
         "name": "Rule 1",

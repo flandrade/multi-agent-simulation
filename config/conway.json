@@ -31,7 +31,8 @@
         "properties": [
           {
             "name": "is-alive",
-            "value": 1
+            "value": 1,
+            "representLiveness": true
           }
         ]
       },
@@ -45,7 +46,8 @@
         "properties": [
           {
             "name": "is-alive",
-            "value": 0
+            "value": 0,
+            "representLiveness": true
           }
         ]
       },
@@ -59,23 +61,12 @@
         "properties": [
           {
             "name": "is-alive",
-            "value": 1
+            "value": 1,
+            "representLiveness": true
           }
         ]
       }
     ],
-    "AgentType": [
-      {
-        "name": "cell"
-      }
-    ],
-    "AgentProperties": [
-      {
-        "name": "is-alive",
-        "representLiveness": true
-      }
-    ],
-    "CoordinateProperties": [],
     "AgentRules": [
       {
         "name": "Rule 1",

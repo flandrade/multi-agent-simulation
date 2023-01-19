@@ -71,10 +71,7 @@ def main():
         print(f'{ident(3)}Coordinate x: {agent.located_at.x} y: {agent.located_at.y}')
         print(f'{ident(2)}agentProperties:')
         for prop in agent.properties:
-            # define property that show liveness (that means: if agent is live or present in the grid)
-            temp_liveness_property = [pr for pr in config.simulation.agent_properties if pr.represent_liveness]
-            liveness_property = temp_liveness_property[0].name if len(temp_liveness_property) > 0 else None
-            print(f'{ident(3)}AgentProperty "{prop.name}" value: {prop.value} representLiveness: {"true" if prop.name == liveness_property else "false"}')
+            print(f'{ident(3)}AgentProperty "{prop.name}" value: {prop.value} representLiveness: {"true" if prop.represent_liveness else "false"}')
 
     print(f'{ident(0)}agentRules:')
     for rule in config.simulation.agent_rules:

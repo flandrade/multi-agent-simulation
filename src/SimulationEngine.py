@@ -93,7 +93,7 @@ class Agent:
                             self.location = (maximum[0], maximum[1])
 
                     if postcondition.identifier == Action.CHANGE_PROPERTY:
-                        if options.property_agent is not None:
+                        if options.property_agent is not None and decision(options.probability_of_changing):
                             # change a property of the agent
                             if options.update_type == UpdateType.INCREASE:
                                 # is it's same agent
@@ -121,7 +121,7 @@ class Agent:
                                     agents_in_same_location[0].properties[options.property_agent] = options.value
                         else:
                             # change a property of the territory
-                            if options.update_type == UpdateType.INCREASE:
+                            if options.update_type == UpdateType.INCREASE and decision(options.probability_of_changing):
                                 coordinate[options.property_territory] += options.value
 
                     # should be here to avoid overlapping
@@ -234,8 +234,16 @@ def main():
     data = simulate(agents, territory, config.simulation.steps, config.simulation.agent_rules, config.simulation.territory_rules)
 
     # define property that show liveness (that means: if agent is live or present in the grid)
-    temp_liveness_property = [pr for pr in config.simulation.agent_properties if pr.represent_liveness]
-    liveness_property = temp_liveness_property[0].name if len(temp_liveness_property) > 0 else None
+    liveness_property = None
+    for agent in config.simulation.agents:
+        for property in agent.properties:
+            if property.represent_liveness:
+                liveness_property = property.name
+                break
+    # define agent types, we use a set to avoid repeated elements
+    agent_types = set([])
+    for agent in agents:
+        agent_types.add(agent.type)
 
     print (f'-------------- AGENT/TERRITORY STATE LOG --------------')
     for step in data:
@@ -245,7 +253,7 @@ def main():
             print(f'{ag.location} {ag.type} {ag.properties}')
 
     # plot
-    plot_simulation(config.simulation.agent_type, config.simulation.name, territory.size, data, liveness_property)
+    plot_simulation(list(agent_types), config.simulation.name, territory.size, data, liveness_property)
 
 if __name__ == '__main__':
     main()

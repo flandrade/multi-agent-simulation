@@ -31,11 +31,13 @@
         "properties": [
           {
             "name": "energy",
-            "value": 8
+            "value": 8,
+            "representLiveness": false
           },
           {
             "name": "is-alive",
-            "value": 1
+            "value": 1,
+            "representLiveness": true
           }
         ]
       },
@@ -49,11 +51,13 @@
         "properties": [
           {
             "name": "energy",
-            "value": 8
+            "value": 8,
+            "representLiveness": false
           },
           {
             "name": "is-alive",
-            "value": 1
+            "value": 1,
+            "representLiveness": true
           }
         ]
       },
@@ -67,11 +71,13 @@
         "properties": [
           {
             "name": "energy",
-            "value": 8
+            "value": 8,
+            "representLiveness": false
           },
           {
             "name": "is-alive",
-            "value": 1
+            "value": 1,
+            "representLiveness": true
           }
         ]
       },
@@ -85,11 +91,13 @@
         "properties": [
           {
             "name": "energy",
-            "value": 8
+            "value": 8,
+            "representLiveness": false
           },
           {
             "name": "is-alive",
-            "value": 1
+            "value": 1,
+            "representLiveness": true
           }
         ]
       },
@@ -103,11 +111,13 @@
         "properties": [
           {
             "name": "energy",
-            "value": 8
+            "value": 8,
+            "representLiveness": false
           },
           {
             "name": "is-alive",
-            "value": 1
+            "value": 1,
+            "representLiveness": true
           }
         ]
       },
@@ -121,39 +131,15 @@
         "properties": [
           {
             "name": "energy",
-            "value": 8
+            "value": 8,
+            "representLiveness": false
           },
           {
             "name": "is-alive",
-            "value": 1
+            "value": 1,
+            "representLiveness": true
           }
         ]
-      }
-    ],
-    "AgentType": [
-      {
-        "name": "woolf"
-      },
-      {
-        "name": "sheep"
-      }
-    ],
-    "AgentProperties": [
-      {
-        "name": "energy",
-        "representLiveness": false
-      },
-      {
-        "name": "is-alive",
-        "representLiveness": true
-      }
-    ],
-    "CoordinateProperties": [
-      {
-        "name": "grass"
-      },
-      {
-        "name": "count-since-removed"
       }
     ],
     "AgentRules": [

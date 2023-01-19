@@ -145,25 +145,6 @@ class Compare(Enum):
 
 
 @dataclass
-class AgentProperty:
-    name: str
-    represent_liveness: bool
-
-    @staticmethod
-    def from_dict(obj: Any) -> 'AgentProperty':
-        assert isinstance(obj, dict)
-        name = from_str(obj.get("name"))
-        represent_liveness = from_bool(obj.get("representLiveness"))
-        return AgentProperty(name, represent_liveness)
-
-    def to_dict(self) -> dict:
-        result: dict = {}
-        result["name"] = from_str(self.name)
-        result["representLiveness"] = from_bool(self.represent_liveness)
-        return result
-
-
-@dataclass
 class Property:
     name: str
     value: int
@@ -179,8 +160,30 @@ class Property:
         result: dict = {}
         result["name"] = from_str(self.name)
         result["value"] = from_int(self.value)
+
         return result
 
+
+@dataclass
+class PropertyAgent:
+    name: str
+    value: int
+    represent_liveness: bool
+
+    @staticmethod
+    def from_dict(obj: Any) -> 'Property':
+        assert isinstance(obj, dict)
+        name = from_str(obj.get("name"))
+        value = from_int(obj.get("value"))
+        represent_liveness = from_bool(obj.get("representLiveness"))
+        return PropertyAgent(name, value, represent_liveness)
+
+    def to_dict(self) -> dict:
+        result: dict = {}
+        result["name"] = from_str(self.name)
+        result["value"] = from_int(self.value)
+        result["representLiveness"] = from_bool(self.represent_liveness)
+        return result
 
 @dataclass
 class PurpleOptions:
@@ -344,22 +347,6 @@ class AgentRule:
 
 
 @dataclass
-class AgentType:
-    name: str
-
-    @staticmethod
-    def from_dict(obj: Any) -> 'AgentType':
-        assert isinstance(obj, dict)
-        name = from_str(obj.get("name"))
-        return AgentType(name)
-
-    def to_dict(self) -> dict:
-        result: dict = {}
-        result["name"] = from_str(self.name)
-        return result
-
-
-@dataclass
 class LocatedAt:
     x: int
     y: int
@@ -383,7 +370,7 @@ class Agent:
     name: str
     type: str
     located_at: LocatedAt
-    properties: List[Property]
+    properties: List[PropertyAgent]
 
     @staticmethod
     def from_dict(obj: Any) -> 'Agent':
@@ -391,7 +378,7 @@ class Agent:
         name = from_str(obj.get("name"))
         type = from_str(obj.get("type"))
         located_at = LocatedAt.from_dict(obj.get("locatedAt"))
-        properties = from_list(Property.from_dict, obj.get("properties"))
+        properties = from_list(PropertyAgent.from_dict, obj.get("properties"))
         return Agent(name, type, located_at, properties)
 
     def to_dict(self) -> dict:
@@ -399,7 +386,7 @@ class Agent:
         result["name"] = from_str(str(self.name))
         result["type"] = from_str(self.type)
         result["locatedAt"] = to_class(LocatedAt, self.located_at)
-        result["properties"] = from_list(lambda x: to_class(Property, x), self.properties)
+        result["properties"] = from_list(lambda x: to_class(PropertyAgent, x), self.properties)
         return result
 
 
@@ -502,9 +489,6 @@ class SimulationClass:
     steps: int
     territory: Territory
     agents: List[Agent]
-    agent_type: List[AgentType]
-    agent_properties: List[AgentProperty]
-    coordinate_properties: List[AgentType]
     agent_rules: List[AgentRule]
     territory_rules: List[TerritoryRule]
 
@@ -515,12 +499,9 @@ class SimulationClass:
         steps = from_int(obj.get("steps"))
         territory = Territory.from_dict(obj.get("territory"))
         agents = from_list(Agent.from_dict, obj.get("agents"))
-        agent_type = from_list(AgentType.from_dict, obj.get("AgentType"))
-        agent_properties = from_list(AgentProperty.from_dict, obj.get("AgentProperties"))
-        coordinate_properties = from_list(AgentType.from_dict, obj.get("CoordinateProperties"))
         agent_rules = from_list(AgentRule.from_dict, obj.get("AgentRules"))
         territory_rules = from_list(TerritoryRule.from_dict, obj.get("TerritoryRules"))
-        return SimulationClass(name, steps, territory, agents, agent_type, agent_properties, coordinate_properties, agent_rules, territory_rules)
+        return SimulationClass(name, steps, territory, agents,  agent_rules, territory_rules)
 
     def to_dict(self) -> dict:
         result: dict = {}
@@ -528,9 +509,7 @@ class SimulationClass:
         result["steps"] = from_int(self.steps)
         result["territory"] = to_class(Territory, self.territory)
         result["agents"] = from_list(lambda x: to_class(Agent, x), self.agents)
-        result["AgentType"] = from_list(lambda x: to_class(AgentType, x), self.agent_type)
-        result["AgentProperties"] = from_list(lambda x: to_class(AgentProperty, x), self.agent_properties)
-        result["CoordinateProperties"] = from_list(lambda x: to_class(AgentType, x), self.coordinate_properties)
+
         result["AgentRules"] = from_list(lambda x: to_class(AgentRule, x), self.agent_rules)
         result["TerritoryRules"] = from_list(lambda x: to_class(TerritoryRule, x), self.territory_rules)
         return result

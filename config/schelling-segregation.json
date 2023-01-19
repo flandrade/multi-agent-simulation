@@ -17,7 +17,8 @@
         "properties": [
           {
             "name": "happy",
-            "value": 0
+            "value": 0,
+            "representLiveness": false
           }
         ]
       },
@@ -31,7 +32,8 @@
         "properties": [
           {
             "name": "happy",
-            "value": 0
+            "value": 0,
+            "representLiveness": false
           }
         ]
       },
@@ -45,7 +47,8 @@
         "properties": [
           {
             "name": "happy",
-            "value": 0
+            "value": 0,
+            "representLiveness": false
           }
         ]
       },
@@ -59,7 +62,8 @@
         "properties": [
           {
             "name": "happy",
-            "value": 0
+            "value": 0,
+            "representLiveness": false
           }
         ]
       },
@@ -73,7 +77,8 @@
         "properties": [
           {
             "name": "happy",
-            "value": 0
+            "value": 0,
+            "representLiveness": false
           }
         ]
       },
@@ -87,26 +92,12 @@
         "properties": [
           {
             "name": "happy",
-            "value": 0
+            "value": 0,
+            "representLiveness": false
           }
         ]
       }
     ],
-    "AgentType": [
-      {
-        "name": "race-1"
-      },
-      {
-        "name": "race-2"
-      }
-    ],
-    "AgentProperties": [
-      {
-        "name": "happy",
-        "representLiveness": false
-      }
-    ],
-    "CoordinateProperties": [],
     "AgentRules": [
       {
         "name": "Rule 1 - race-1",

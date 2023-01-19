@@ -20,8 +20,7 @@ def define_scat(agent_types, agents, step, liveness_property):
         types.append(list)
     return types
 
-def plot_simulation(types, name, territory_size, data, liveness_property):
-    agent_types = [ag.name for ag in types]
+def plot_simulation(agent_types, name, territory_size, data, liveness_property):
     agent_colors = np.random.rand(len(agent_types), 3)
     # extract the x and y values for the plot
     steps, territory, agents = zip(*data)

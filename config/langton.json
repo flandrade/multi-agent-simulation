@@ -99,17 +99,6 @@
         "properties": []
       }
     ],
-    "AgentType": [
-      {
-        "name": "ant"
-      }
-    ],
-    "AgentProperties": [],
-    "CoordinateProperties": [
-      {
-        "name": "color"
-      }
-    ],
     "AgentRules": [
       {
         "name": "Rule 1",

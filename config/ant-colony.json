@@ -1,7 +1,7 @@
 {
   "simulation": {
     "name": "Ant Colony",
-    "steps": 6,
+    "steps": 25,
     "territory": {
       "width": 10,
       "height": 10,
@@ -75,11 +75,13 @@
         "properties": [
           {
             "name": "load",
-            "value": 0
+            "value": 0,
+            "representLiveness": false
           },
           {
             "name": "is-alive",
-            "value": 1
+            "value": 1,
+            "representLiveness": true
           }
         ]
       },
@@ -93,11 +95,13 @@
         "properties": [
           {
             "name": "load",
-            "value": 0
+            "value": 0,
+            "representLiveness": false
           },
           {
             "name": "is-alive",
-            "value": 1
+            "value": 1,
+            "representLiveness": true
           }
         ]
       },
@@ -111,11 +115,13 @@
         "properties": [
           {
             "name": "load",
-            "value": 3
+            "value": 3,
+            "representLiveness": false
           },
           {
             "name": "is-alive",
-            "value": 1
+            "value": 1,
+            "representLiveness": true
           }
         ]
       },
@@ -129,11 +135,13 @@
         "properties": [
           {
             "name": "load",
-            "value": 3
+            "value": 3,
+            "representLiveness": false
           },
           {
             "name": "is-alive",
-            "value": 1
+            "value": 1,
+            "representLiveness": true
           }
         ]
       },
@@ -147,11 +155,13 @@
         "properties": [
           {
             "name": "food",
-            "value": 3
+            "value": 3,
+            "representLiveness": false
           },
           {
             "name": "is-alive",
-            "value": 1
+            "value": 1,
+            "representLiveness": true
           }
         ]
       },
@@ -165,43 +175,15 @@
         "properties": [
           {
             "name": "food",
-            "value": 0
+            "value": 0,
+            "representLiveness": false
           },
           {
             "name": "is-alive",
-            "value": 1
+            "value": 1,
+            "representLiveness": true
           }
         ]
-      }
-    ],
-    "AgentType": [
-      {
-        "name": "worker-ant"
-      },
-      {
-        "name": "queen-ant"
-      }
-    ],
-    "AgentProperties": [
-      {
-        "name": "load",
-        "representLiveness": false
-      },
-      {
-        "name": "food",
-        "representLiveness": false
-      },
-      {
-        "name": "is-alive",
-        "representLiveness": true
-      }
-    ],
-    "CoordinateProperties": [
-      {
-        "name": "pheromones"
-      },
-      {
-        "name": "units-of-food"
       }
     ],
     "AgentRules": [
