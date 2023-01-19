@@ -5,265 +5,294 @@ territory:
     height: 10
     coordinates:
         Coordinate x: 0 y: 0
-            properties:
-                TerritoryProperty name: "grass" value: 1 isDefault: true
-                TerritoryProperty name: "count-since-removed" value: 0 isDefault: true
+            coordinateProperties:
+                TerritoryProperty "grass" value: 1 isDefault: true
+                TerritoryProperty "count-since-removed" value: 0 isDefault: true
 agents:
-    Agent name: "1" type: "sheep"
+    Agent "1" type: "sheep"
         locatedAt:
             Coordinate x: 2 y: 2
-        properties:
-            AgentProperty name: "energy" value: 8 representLiveness: false
-            AgentProperty name: "is-alive" value: 1 representLiveness: true
-    Agent name: "2" type: "sheep"
+        agentProperties:
+            AgentProperty "energy" value: 8 representLiveness: false
+            AgentProperty "is-alive" value: 1 representLiveness: true
+    Agent "2" type: "sheep"
         locatedAt:
             Coordinate x: 4 y: 4
-        properties:
-            AgentProperty name: "energy" value: 8 representLiveness: false
-            AgentProperty name: "is-alive" value: 1 representLiveness: true
-    Agent name: "3" type: "sheep"
+        agentProperties:
+            AgentProperty "energy" value: 8 representLiveness: false
+            AgentProperty "is-alive" value: 1 representLiveness: true
+    Agent "3" type: "sheep"
         locatedAt:
             Coordinate x: 6 y: 6
-        properties:
-            AgentProperty name: "energy" value: 8 representLiveness: false
-            AgentProperty name: "is-alive" value: 1 representLiveness: true
-    Agent name: "4" type: "woolf"
+        agentProperties:
+            AgentProperty "energy" value: 8 representLiveness: false
+            AgentProperty "is-alive" value: 1 representLiveness: true
+    Agent "4" type: "woolf"
         locatedAt:
             Coordinate x: 0 y: 0
-        properties:
-            AgentProperty name: "energy" value: 8 representLiveness: false
-            AgentProperty name: "is-alive" value: 1 representLiveness: true
-    Agent name: "5" type: "woolf"
+        agentProperties:
+            AgentProperty "energy" value: 8 representLiveness: false
+            AgentProperty "is-alive" value: 1 representLiveness: true
+    Agent "5" type: "woolf"
         locatedAt:
             Coordinate x: 3 y: 3
-        properties:
-            AgentProperty name: "energy" value: 8 representLiveness: false
-            AgentProperty name: "is-alive" value: 1 representLiveness: true
-    Agent name: "6" type: "woolf"
+        agentProperties:
+            AgentProperty "energy" value: 8 representLiveness: false
+            AgentProperty "is-alive" value: 1 representLiveness: true
+    Agent "6" type: "woolf"
         locatedAt:
             Coordinate x: 7 y: 7
-        properties:
-            AgentProperty name: "energy" value: 8 representLiveness: false
-            AgentProperty name: "is-alive" value: 1 representLiveness: true
+        agentProperties:
+            AgentProperty "energy" value: 8 representLiveness: false
+            AgentProperty "is-alive" value: 1 representLiveness: true
 agentRules:
-    AgentRule name: "Rule 1 - Woolf" type: "woolf"
+    AgentRule "Rule 1 - Woolf" type: "woolf"
         description: "Each step costs the wolves energy"
         preconditions:
-            Precondition identifier: "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "energy"
+                    Option compare value: "greater-than"
+                    Option propertyAgent value: "energy"
                 optionsInt:
-                    Option name: "threshold" value: 0
-            Precondition identifier: "compare-property"
+                    Option optionThreshold value: 0
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "is-alive"
+                    Option compare value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option name: "threshold" value: 1
+                    Option optionThreshold value: 1
         postconditions:
-            Postcondition identifier: "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option name: "property_agent" value: "energy"
+                    Option propertyAgent value: "energy"
                 optionsInt:
-                    Option name: "value" value: 1
-    AgentRule name: "Rule 2 - Woolf" type: "woolf"
+                    Option probabilityOfChanging value: 1
+                    Option optionValue value: 1
+    AgentRule "Rule 2 - Woolf" type: "woolf"
         description: "They must eat sheep in order to replenish their energy"
         preconditions:
-            Precondition identifier: "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "energy"
+                    Option compare value: "greater-than"
+                    Option propertyAgent value: "energy"
                 optionsInt:
-                    Option name: "threshold" value: 0
-            Precondition identifier: "compare-property"
+                    Option optionThreshold value: 0
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "is-alive"
+                    Option compare value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option name: "threshold" value: 1
-            Precondition identifier: "check-presence"
+                    Option optionThreshold value: 1
+            Condition "check-presence"
                 optionsString:
-                    Option name: "type" value: "sheep"
+                    Option optionType value: "sheep"
                 optionsInt:
-                    Option name: "value" value: 1
+                    Option optionValue value: 1
         postconditions:
-            Postcondition identifier: "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option name: "property_agent" value: "energy"
+                    Option propertyAgent value: "energy"
                 optionsInt:
-                    Option name: "value" value: 2
-            Postcondition identifier: "change-property"
+                    Option probabilityOfChanging value: 1
+                    Option optionValue value: 2
+            Condition "change-property"
                 optionsString:
-                    Option name: "affected" value: "sheep"
-                    Option name: "agent_type" value: "sheep"
-                    Option name: "property_agent" value: "is-alive"
+                    Option agentType value: "sheep"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option name: "value" value: 0
-    AgentRule name: "Rule 3 - Woolf" type: "woolf"
+                    Option probabilityOfChanging value: 1
+                    Option optionValue value: 0
+    AgentRule "Rule 3 - Woolf" type: "woolf"
         description: "when they run out of energy they die"
         preconditions:
-            Precondition identifier: "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "energy"
+                    Option compare value: "less-than"
+                    Option propertyAgent value: "energy"
                 optionsInt:
-                    Option name: "threshold" value: 1
-            Precondition identifier: "compare-property"
+                    Option optionThreshold value: 1
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "is-alive"
+                    Option compare value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option name: "threshold" value: 1
+                    Option optionThreshold value: 1
         postconditions:
-            Postcondition identifier: "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option name: "property_agent" value: "is-alive"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option name: "value" value: 0
-    AgentRule name: "Rule 4 - Woolf" type: "woolf"
+                    Option probabilityOfChanging value: 1
+                    Option optionValue value: 0
+    AgentRule "Rule 4 - Woolf" type: "woolf"
         description: "Each woolf has a fixed probability of reproducing at each time step"
         preconditions:
-            Precondition identifier: "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "is-alive"
+                    Option compare value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option name: "threshold" value: 1
+                    Option optionThreshold value: 1
         postconditions:
-            Postcondition identifier: "introduce-agents"
+            Condition "introduce-agents"
                 optionsString:
-                    Option name: "affected" value: "woolf"
-                    Option name: "agent_type" value: "woolf"
+                    Option agentType value: "woolf"
                 optionsInt:
-                    Option name: "amount" value: 1
-    AgentRule name: "Rule 5 - Woolf" type: "woolf"
+                    Option amount value: 1
+    AgentRule "Rule 5 - Woolf" type: "woolf"
         description: "wolves wander randomly around the landscape"
         preconditions:
-            Precondition identifier: "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "is-alive"
+                    Option compare value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option name: "threshold" value: 1
+                    Option optionThreshold value: 1
         postconditions:
-            Postcondition identifier: "move"
+            Condition "move"
+                optionsString:
+                    Option direction value: "random"
                 optionsInt:
-    AgentRule name: "Rule 1 - Sheep" type: "sheep"
+    AgentRule "Rule 1 - Sheep" type: "sheep"
         description: "Each step costs the sheep energy"
         preconditions:
-            Precondition identifier: "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "energy"
+                    Option compare value: "greater-than"
+                    Option propertyAgent value: "energy"
                 optionsInt:
-                    Option name: "threshold" value: 0
-            Precondition identifier: "compare-property"
+                    Option optionThreshold value: 0
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "is-alive"
+                    Option compare value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option name: "threshold" value: 1
+                    Option optionThreshold value: 1
         postconditions:
-            Postcondition identifier: "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option name: "property_agent" value: "energy"
+                    Option propertyAgent value: "energy"
                 optionsInt:
-                    Option name: "value" value: 1
-    AgentRule name: "Rule 2 - Sheep" type: "sheep"
+                    Option probabilityOfChanging value: 1
+                    Option optionValue value: 1
+    AgentRule "Rule 2 - Sheep" type: "sheep"
         description: "They must eat grass in order to replenish their energy"
         preconditions:
-            Precondition identifier: "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "energy"
+                    Option compare value: "greater-than"
+                    Option propertyAgent value: "energy"
                 optionsInt:
-                    Option name: "threshold" value: 0
-            Precondition identifier: "compare-property"
+                    Option optionThreshold value: 0
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "is-alive"
+                    Option compare value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option name: "threshold" value: 1
-            Precondition identifier: "compare-property"
+                    Option optionThreshold value: 1
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_territory" value: "grass"
+                    Option compare value: "greater-than"
+                    Option propertyTerritory value: "grass"
                 optionsInt:
-                    Option name: "threshold" value: 0
+                    Option optionThreshold value: 0
         postconditions:
-            Postcondition identifier: "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option name: "property_territory" value: "grass"
+                    Option propertyTerritory value: "grass"
                 optionsInt:
-                    Option name: "value" value: 0
-            Postcondition identifier: "change-property"
+                    Option probabilityOfChanging value: 1
+                    Option optionValue value: 0
+            Condition "change-property"
                 optionsString:
-                    Option name: "property_territory" value: "count-since-removed"
+                    Option propertyTerritory value: "count-since-removed"
                 optionsInt:
-                    Option name: "value" value: 0
-    AgentRule name: "Rule 3 - Sheep" type: "sheep"
+                    Option probabilityOfChanging value: 1
+                    Option optionValue value: 0
+    AgentRule "Rule 3 - Sheep" type: "sheep"
         description: "when they run out of energy they die"
         preconditions:
-            Precondition identifier: "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "energy"
+                    Option compare value: "less-than"
+                    Option propertyAgent value: "energy"
                 optionsInt:
-                    Option name: "threshold" value: 1
-            Precondition identifier: "compare-property"
+                    Option optionThreshold value: 1
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "is-alive"
+                    Option compare value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option name: "threshold" value: 1
+                    Option optionThreshold value: 1
         postconditions:
-            Postcondition identifier: "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option name: "property_agent" value: "is-alive"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option name: "value" value: 0
-    AgentRule name: "Rule 4 - Sheep" type: "sheep"
+                    Option probabilityOfChanging value: 1
+                    Option optionValue value: 0
+    AgentRule "Rule 4 - Sheep" type: "sheep"
         description: "Each sheep has a fixed probability of reproducing at each time step"
         preconditions:
-            Precondition identifier: "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "is-alive"
+                    Option compare value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option name: "threshold" value: 1
+                    Option optionThreshold value: 1
         postconditions:
-            Postcondition identifier: "introduce-agents"
+            Condition "introduce-agents"
                 optionsString:
-                    Option name: "affected" value: "sheep"
-                    Option name: "agent_type" value: "sheep"
+                    Option agentType value: "sheep"
                 optionsInt:
-                    Option name: "amount" value: 1
-    AgentRule name: "Rule 5 - Sheep" type: "sheep"
+                    Option amount value: 1
+    AgentRule "Rule 5 - Sheep" type: "sheep"
         description: "sheeps wander randomly around the landscape"
         preconditions:
-            Precondition identifier: "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "is-alive"
+                    Option compare value: "equal"
+                    Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option name: "threshold" value: 1
+                    Option optionThreshold value: 1
         postconditions:
-            Postcondition identifier: "move"
+            Condition "move"
+                optionsString:
+                    Option direction value: "random"
+                optionsInt:
 territoryRules:
-    TerritoryRule name: "Rule 1 - Grass"
+    TerritoryRule "Rule 1 - Grass"
         description: "Once grass is eaten it will only regrow after a fixed amount of time."
         preconditions:
-            Precondition identifier: "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_territory" value: "count-since-removed"
+                    Option compare value: "greater-than"
+                    Option propertyTerritory value: "count-since-removed"
                 optionsInt:
-                    Option name: "threshold" value: 5
+                    Option optionThreshold value: 5
         postconditions:
-            Postcondition identifier: "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option name: "property_territory" value: "grass"
                 optionsInt:
-                    Option name: "value" value: 1
-            Postcondition identifier: "change-property"
+                    Option probabilityOfChanging value: 1
+                    Option optionValue value: 1
+            Condition "change-property"
                 optionsString:
-                    Option name: "property_territory" value: "count-since-removed"
                 optionsInt:
-                    Option name: "value" value: 0
-    TerritoryRule name: "Rule 2 - Grass"
+                    Option probabilityOfChanging value: 1
+                    Option optionValue value: 0
+    TerritoryRule "Rule 2 - Grass"
         description: "Once grass is eaten, keep track of the time that has passed"
         preconditions:
-            Precondition identifier: "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_territory" value: "grass"
+                    Option compare value: "equal"
+                    Option propertyTerritory value: "grass"
                 optionsInt:
-                    Option name: "threshold" value: 0
+                    Option optionThreshold value: 0
         postconditions:
-            Postcondition identifier: "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option name: "property_territory" value: "count-since-removed"
                 optionsInt:
-                    Option name: "value" value: 1
+                    Option probabilityOfChanging value: 1
+                    Option optionValue value: 1

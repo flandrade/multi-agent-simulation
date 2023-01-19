@@ -84,7 +84,7 @@ agentRules:
                 optionsString:
                     Option propertyAgent value: "load"
                 optionsInt:
-                    Option probabilityOfChanging value: 1.0
+                    Option probabilityOfChanging value: 1
                     Option optionValue value: 1
     AgentRule "Worker Ant - Rule 2" type: "worker-ant"
         description: "if in his current position there is no food and his load is less than 3, they move to any adjacent position"
@@ -137,14 +137,14 @@ agentRules:
                 optionsString:
                     Option propertyAgent value: "load"
                 optionsInt:
-                    Option probabilityOfChanging value: 1.0
+                    Option probabilityOfChanging value: 1
                     Option optionValue value: 0
             Condition "change-property"
                 optionsString:
                     Option affected value: "queen-ant"
                     Option propertyAgent value: "food"
                 optionsInt:
-                    Option probabilityOfChanging value: 1.0
+                    Option probabilityOfChanging value: 1
                     Option optionValue value: 3
     AgentRule "Worker Ant - Rule 4" type: "worker-ant"
         description: "if their charge is equal to 3 and there is no ant-queen, move to the adjacent position that has more pheromones, and increase that pheromone amount by 1"
@@ -171,7 +171,7 @@ agentRules:
                 optionsString:
                     Option propertyTerritory value: "pheromones"
                 optionsInt:
-                    Option probabilityOfChanging value: 1.0
+                    Option probabilityOfChanging value: 1
                     Option optionValue value: 1
             Condition "move"
                 optionsString:
@@ -205,7 +205,7 @@ agentRules:
                 optionsString:
                     Option propertyAgent value: "food"
                 optionsInt:
-                    Option probabilityOfChanging value: 1.0
+                    Option probabilityOfChanging value: 1
                     Option optionValue value: 1
             Condition "introduce-agents"
                 optionsString:
@@ -232,7 +232,7 @@ agentRules:
                 optionsString:
                     Option propertyAgent value: "is-alive"
                 optionsInt:
-                    Option probabilityOfChanging value: 1.0
+                    Option probabilityOfChanging value: 1
                     Option optionValue value: 0
 territoryRules:
     TerritoryRule "Rule 1 - Pheromones"
@@ -248,5 +248,5 @@ territoryRules:
             Condition "change-property"
                 optionsString:
                 optionsInt:
-                    Option probabilityOfChanging value: 1.0
+                    Option probabilityOfChanging value: 1
                     Option optionValue value: 1

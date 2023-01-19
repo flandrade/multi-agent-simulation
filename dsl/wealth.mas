@@ -3,29 +3,35 @@ steps: 25
 territory:
     width: 20
     height: 20
+    coordinates:
 agents:
-    Agent name: "1" type: "person"
+    Agent "1" type: "person"
         locatedAt:
             Coordinate x: 0 y: 0
-        properties:
-            AgentProperty name: "money" value: 1 representLiveness: false
+        agentProperties:
+            AgentProperty "money" value: 1 representLiveness: false
 agentRules:
-    AgentRule name: "Rule 1" type: "person"
+    AgentRule "Rule 1" type: "person"
         description: "Agents move"
+        preconditions:
         postconditions:
-            Postcondition identifier: "move"
+            Condition "move"
+                optionsString:
+                    Option direction value: "free-random"
                 optionsInt:
-    AgentRule name: "Rule 2" type: "person"
+    AgentRule "Rule 2" type: "person"
         description: "Agents with positive wealth randomly selects a trading partner and gives them one unit of their wealth"
         preconditions:
-            Precondition identifier: "compare-property"
+            Condition "compare-property"
                 optionsString:
-                    Option name: "property_agent" value: "money"
+                    Option compare value: "greater-than"
+                    Option propertyAgent value: "money"
                 optionsInt:
-                    Option name: "threshold" value: 0
+                    Option optionThreshold value: 0
         postconditions:
-            Postcondition identifier: "change-property"
+            Condition "change-property"
                 optionsString:
-                    Option name: "property_agent" value: "money"
+                    Option propertyAgent value: "money"
                 optionsInt:
-                    Option name: "value" value: 1
+                    Option probabilityOfChanging value: 0
+                    Option optionValue value: 1

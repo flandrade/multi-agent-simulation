@@ -26,7 +26,7 @@ int_options = {
     'value': 'optionValue',
     'probability_of_changing': 'probabilityOfChanging',
     'probability_of_Adding': 'probabilityOfAdding',
-    'turn_degrees': 'turnDegress',
+    'turn_degrees': 'turnDegrees',
     'amount': 'amount'
 }
 
