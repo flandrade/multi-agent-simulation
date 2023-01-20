@@ -1,12 +1,6 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Dec 30 16:12:35 2022
-
-@author: Grandury
-"""
 import copy
 import json
-import numpy as np
+import sys
 import random
 from plot import plot_simulation
 import uuid
@@ -196,7 +190,8 @@ def simulate(agents, territory, steps, agent_rules, territory_rules):
             # if rule returns value, new agent should be created.
             # NOTE: name should be unique
             if result is not None:
-                new_agent = Agent(str(uuid.uuid4()), result.agent_type, agent.location, get_agent_properties(result.properties))
+                props = get_agent_properties(result.properties, agents, result.agent_type)
+                new_agent = Agent(str(uuid.uuid4()), result.agent_type, agent.location, props)
                 agents.append(new_agent)
             # apply the evolution rules for the territory
         territory.apply_evolution_rules(territory_rules)
@@ -208,8 +203,12 @@ def simulate(agents, territory, steps, agent_rules, territory_rules):
     return new_data
 
 
-def get_agent_properties(properties):
+def get_agent_properties(properties, agents=None, type=None):
     agent_properties = {}
+    if properties is None:
+        aux = filter(lambda a: a.type == type, agents)
+        return next(aux).properties
+
     for prop in properties:
         agent_properties[prop.name] = prop.value
     return agent_properties
@@ -217,7 +216,7 @@ def get_agent_properties(properties):
 
 def main():
     # open the JSON file and read the contents
-    with open('config/ant-colony.json') as config_file:
+    with open(sys.argv[1]) as config_file:
         conf = config_file.read()
     config = simulation_from_dict(json.loads(conf))
 

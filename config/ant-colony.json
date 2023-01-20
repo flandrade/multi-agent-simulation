@@ -1,7 +1,7 @@
 {
   "simulation": {
     "name": "Ant Colony",
-    "steps": 25,
+    "steps": 6,
     "territory": {
       "width": 10,
       "height": 10,
@@ -313,7 +313,7 @@
               "probabilityOfChanging": 1,
               "propertyAgent": "load",
               "propertyTerritory": null,
-              "updateType": "increase",
+              "updateType": "update",
               "value": 0
             }
           },
